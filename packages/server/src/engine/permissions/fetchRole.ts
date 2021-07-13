@@ -1,12 +1,12 @@
 import { client } from 'engine'
 
 function fetchRole({ serverID, roleID }: { serverID: string; roleID: string }) {
-  if (!client.guilds.has(serverID)) {
+  if (!client.guilds.cache.has(serverID)) {
     return undefined
   }
 
-  const guild = client.guilds.get(serverID)
-  const role = guild.roles.find(role => role.id === roleID)
+  const guild = client.guilds.cache.get(serverID)
+  const role = guild.roles.cache.find(role => role.id === roleID)
   return role
 }
 

@@ -5,10 +5,10 @@ import { cache, client } from 'engine'
 import { io } from '../../../controllers/app'
 
 const Stats = {
-  totalServers: () => client.guilds.size,
+  totalServers: () => client.guilds.cache.size,
   totalMembers() {
     let total = 0
-    client.guilds.forEach(guild => (total += guild.memberCount))
+    client.guilds.cache.forEach(guild => (total += guild.memberCount))
     return total
   },
 
@@ -34,9 +34,7 @@ const Stats = {
     },
     totalMessages() {
       let total = 0
-      cache.store.forEach(server =>
-        server.map(channel => (total += channel.size))
-      )
+      cache.store.forEach(server => server.map(channel => (total += channel.size)))
       return total
     }
   }

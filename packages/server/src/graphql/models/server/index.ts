@@ -8,7 +8,7 @@ import { Icons } from '../../../modules/assets'
 import Channels from './channels'
 
 async function Server({ id: server }) {
-  const guild = client.guilds.get(server)
+  const guild = client.guilds.cache.get(server)
   if (!guild) throw Messages.BAD_SERVER
 
   const channels = await Channels(server)

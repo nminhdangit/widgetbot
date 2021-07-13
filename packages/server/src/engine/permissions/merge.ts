@@ -10,11 +10,10 @@ function Merge(bot: PermissionObject, everyone: PermissionObject) {
   const user = everyone
 
   // If the bot can't send messages, the user can't either
-  if ((bot.SEND_MESSAGES === bot.MANAGE_WEBHOOKS) === false)
-    user.SEND_MESSAGES = false
+  if ((bot.SEND_MESSAGES === bot.MANAGE_WEBHOOKS) === false) user.SEND_MESSAGES = false
 
   // If the bot can / can't read messages, the user can / can't either
-  if (bot.READ_MESSAGES !== null) user.READ_MESSAGES = bot.READ_MESSAGES
+  if (bot.READ_MESSAGE_HISTORY !== null) user.READ_MESSAGE_HISTORY = bot.READ_MESSAGE_HISTORY
 
   // If the bot is set to be allowed to send messages, make it so
   if (bot.SEND_MESSAGES !== null) user.SEND_MESSAGES = bot.SEND_MESSAGES

@@ -25,7 +25,7 @@ const Context = {
   },
 
   guildCount() {
-    return client.guilds.array().length
+    return client.guilds.cache.array().length
   }
 }
 

@@ -23,9 +23,8 @@ export async function Login(token: string) {
   await async(client).on('ready')
 
   // Start toggling playing status
-  if (config.discord.statuses && config.discord.statuses.length)
-    PlayingStatus.start()
-  else client.user.setPresence({ game: null })
+  if (config.discord.statuses && config.discord.statuses.length) PlayingStatus.start()
+  else client.user.setPresence({ activity: { name: null } })
 
   /**
    * Message events

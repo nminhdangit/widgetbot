@@ -15,7 +15,7 @@ const startMetrics = () => {
 
   probe.metric({
     name: 'Total guilds',
-    value: () => client.guilds.size
+    value: () => client.guilds.cache.size
   })
 
   probe.metric({
@@ -47,9 +47,7 @@ const startMetrics = () => {
     name: 'Cached messages',
     value: () => {
       let total = 0
-      cache.store.forEach(server =>
-        server.map(channel => (total += channel.size))
-      )
+      cache.store.forEach(server => server.map(channel => (total += channel.size)))
       return total
     }
   })

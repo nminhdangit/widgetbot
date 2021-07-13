@@ -15,13 +15,9 @@ async function Parse(message: Discord.Message) {
     id: message.id,
     author: {
       name: `${message.author.username}#${message.author.discriminator}`,
-      type: message.author.bot
-        ? 'bot'
-        : config.discord.admins.includes(message.author.id)
-          ? 'sysadmin'
-          : 'member',
-      avatar: message.author.avatarURL
-        ? message.author.avatarURL.replace(/\?size=(.*)/, '?size=64')
+      type: message.author.bot ? 'bot' : config.discord.admins.includes(message.author.id) ? 'sysadmin' : 'member',
+      avatar: message.author.avatarURL()
+        ? message.author.avatarURL().replace(/\?size=(.*)/, '?size=64')
         : message.author.defaultAvatarURL.replace(/\?size=(.*)/, '?size=64'),
       id: message.author.id,
 
@@ -32,7 +28,7 @@ async function Parse(message: Discord.Message) {
     embeds: message.embeds.map((embed): EmbedType => new Embed(embed) as any),
     editedAt: message.editedTimestamp,
     type: message.type,
-    reactions: await Reactions(message.reactions.array()),
+    reactions: await Reactions(message.reactions.cache.array()),
     attachment: await Attachment(message.attachments.array()),
     mentions: {
       channels: message.mentions.channels.map(channel => ({
@@ -42,10 +38,8 @@ async function Parse(message: Discord.Message) {
       members: message.mentions.members.map(member => ({
         name: member.displayName,
         id: member.id,
-        roles: member.roles.map(role => Role(role)),
-        avatar: member.user.avatarURL
-          ? member.user.avatarURL.replace(/\?size=(.*)/, '?size=128')
-          : null
+        roles: member.roles.cache.map(role => Role(role)),
+        avatar: member.user.avatarURL ? member.user.avatarURL().replace(/\?size=(.*)/, '?size=128') : null
       })),
       roles: await Roles(message.mentions.roles.array()),
       everyone: message.mentions.everyone
