@@ -88,7 +88,8 @@ class Guest {
     }
 
     const webhooks = await channel.fetchWebhooks()
-    let [webhook] = webhooks.filterArray(({ name }) => name === config.discord.webhook)
+    // let [webhook] = webhooks.filterArray(({ name }) => name === config.discord.webhook)
+    let [webhook] = webhooks[config.discord.webhook]
 
     if (webhook) {
       return await this.sendMessageAsWebhook(channel, webhook, message)

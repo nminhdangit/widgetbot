@@ -63,9 +63,7 @@ class MessageStore {
       if (message) {
         if (!message.reactions) message.reactions = []
 
-        const sameReaction = message.reactions.find(
-          r => r.id === reaction.id && r.name === reaction.name
-        )
+        const sameReaction = message.reactions.find(r => r.id === reaction.id && r.name === reaction.name)
 
         if (sameReaction) {
           sameReaction.count = reaction.count
@@ -78,11 +76,7 @@ class MessageStore {
     }
   }
 
-  async removeReaction(
-    req: Request,
-    id: string,
-    reactions: Reaction | Reaction[]
-  ) {
+  async removeReaction(req: Request, id: string, reactions: Reaction | Reaction[]) {
     try {
       if (!(reactions instanceof Array)) reactions = [reactions]
 
@@ -91,9 +85,7 @@ class MessageStore {
 
       if (message && message.reactions) {
         for (let reaction of reactions) {
-          message.reactions = message.reactions.filter(
-            r => !(r.id === reaction.id && r.name === reaction.name)
-          )
+          message.reactions = message.reactions.filter(r => !(r.id === reaction.id && r.name === reaction.name))
         }
       }
     } catch (e) {
@@ -152,7 +144,7 @@ class MessageStore {
   async cacheMessages(req: Request, options: ChannelLogsQueryOptions = {}) {
     const { channel } = await fetchChannel(req)
 
-    const messages = await channel.fetchMessages({
+    const messages = await channel.messages.fetch({
       limit: options.limit || config.cache['graphql.messageHistory'],
       ...options
     })

@@ -1,6 +1,7 @@
 import config from 'config'
 import { Client } from 'discord.js'
 import async from 'doasync'
+import * as Discord from 'discord.js'
 import Commands from 'engine/commands'
 import inCache from 'engine/inCache'
 import options from 'engine/options'
@@ -48,8 +49,8 @@ export async function Login(token: string) {
    * Message edit events
    */
   client.on('messageUpdate', (_, data) => {
-    inCache(data, async ({ server, channel }) => {
-      const message = await Parse(data)
+    inCache({ guild: data.guild, channel: data.channel }, async ({ server, channel }) => {
+      const message = await Parse(data as Discord.Message)
       cache.editMessage({ server, channel }, message)
 
       io.to(`${server}/${channel}`).emit('messageUpdate', {

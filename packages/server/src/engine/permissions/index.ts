@@ -18,7 +18,7 @@ async function Permissions(req: { server: string; channel: string }) {
 
   const everyone = await rolePerms({
     ...req,
-    snowflake: guild.roles.find(({ name }) => name === '@everyone').id
+    snowflake: guild.roles.cache.find(({ name }) => name === '@everyone').id
   })
 
   // Merge the permissions

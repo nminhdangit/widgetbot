@@ -11,7 +11,7 @@ async function Channels(server: string) {
   const guild = client.guilds.cache.get(server)
 
   const channels = await Promise.all(
-    guild.channels
+    guild.channels.cache
       // Only allow text channels
       .filter(channel => channel.type === 'text')
 
@@ -32,7 +32,7 @@ async function Channels(server: string) {
   )
 
   // Filter the channels by whether they have the READ_MESSAGES permission
-  return channels.filter(({ permissions }) => (permissions ? permissions.READ_MESSAGES : false))
+  return channels.filter(({ permissions }) => (permissions ? permissions.READ_MESSAGE_HISTORY : false))
 }
 
 export default memoize(Channels, {

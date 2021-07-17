@@ -28,18 +28,17 @@ app.set('port', config.express.port)
 
 // Middleware
 app.use(intercept(interceptor))
-if (['debug', 'silly'].includes(logger.level)) {
-  app.use(
-    expressWinston.logger({
-      transports: [],
-      format: winston.format.colorize(),
-      winstonInstance: logger,
-      level: logger.level,
-      meta: logger.level === 'silly',
-      msg: 'HTTP {{req.method}} {{req.url}}'
-    })
-  )
-}
+// if (['debug', 'silly'].includes(logger.level)) {
+//   app.use(
+//     expressWinston.logger({
+//       transports: [],
+//       winstonInstance: logger,
+//       level: logger.level,
+//       meta: logger.level === 'silly',
+//       msg: 'HTTP {{req.method}} {{req.url}}'
+//     })
+//   )
+// }
 app.use('/api/graphql', limiter, graphql)
 
 // Routes

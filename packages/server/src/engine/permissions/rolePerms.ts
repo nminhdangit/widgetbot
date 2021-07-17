@@ -22,15 +22,12 @@ async function rolePerms({ snowflake, ...req }: Request) {
 
     // Iterate through the permissions and add them to the object
     permissions.forEach((_, permission) => {
-      permissions.set(
-        permission,
-        deny.has(permission) ? false : allow.has(permission) ? true : null
-      )
+      permissions.set(permission, deny.has(permission) ? false : allow.has(permission) ? true : null)
     })
   }
 
   // Resolve all null permissions
-  const role = guild.roles.get(snowflake)
+  const role = guild.roles.cache.get(snowflake)
   if (role) {
     const perms = new Permissions(role.permissions)
 
