@@ -69,11 +69,16 @@ namespace GraphQL {
         response && response.errors
           ? response.errors.map(error => ({
               level: 'error',
-              title: 'An error occurred whilst loading this embed',
+              title: 'An error occurred whilst loading this embed (loading messages)',
               message: error.message,
               autoDismiss: 0
             }))
           : serverIssues
+
+      if (response && response.errors) {
+        console.log(response)
+        response.errors.map(error => console.error(error))
+      }
 
       return path.error({ notification: errors })
     }
@@ -122,7 +127,7 @@ namespace GraphQL {
         response && response.errors
           ? response.errors.map(error => ({
               level: 'error',
-              title: 'An error occurred whilst loading this embed',
+              title: 'An error occurred while loading this embed (fetching channels)',
               message: error.message,
               autoDismiss: 0
             }))

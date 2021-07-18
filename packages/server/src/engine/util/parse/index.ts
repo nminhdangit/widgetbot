@@ -26,7 +26,7 @@ async function Parse(message: Discord.Message) {
     timestamp: message.createdTimestamp,
     content: message.content || null,
     embeds: message.embeds.map((embed): EmbedType => new Embed(embed) as any),
-    editedAt: message.editedTimestamp,
+    editedAt: message.editedTimestamp == 0 ? null : message.editedTimestamp,
     type: message.type,
     reactions: await Reactions(message.reactions.cache.array()),
     attachment: await Attachment(message.attachments.array()),

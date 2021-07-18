@@ -5,7 +5,7 @@ import Permissions from 'engine/permissions'
 import memoize from 'memoizee'
 import timestring from 'timestring'
 
-import { Channel } from './../../../types/message'
+import { Channel } from '../../../types/message'
 
 async function Channels(server: string) {
   const guild = client.guilds.cache.get(server)

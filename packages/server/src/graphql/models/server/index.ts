@@ -28,7 +28,7 @@ async function Server({ id: server }) {
       }
     },
     memberCount: guild.memberCount,
-    icon: guild.iconURL || Icons.discord,
+    icon: guild.iconURL() || Icons.discord,
     channels,
     async channel({ id: channel }) {
       const textChannel = channels.find(({ id }) => id === channel)
