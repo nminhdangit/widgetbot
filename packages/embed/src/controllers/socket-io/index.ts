@@ -1,7 +1,7 @@
 import api from 'embed-api'
 import * as _ from 'lodash'
 import { addNotification } from 'notify'
-import * as io from 'socket.io-client'
+import io from 'socket.io-client'
 
 import controller from '../cerebral'
 
@@ -40,9 +40,7 @@ const initiate = () => {
   socket.on('message', d => api.emit('message', d))
   socket.on('messageUpdate', d => api.emit('messageUpdate', d))
   socket.on('messageDelete', d => api.emit('messageDelete', d))
-  socket.on('messageDeleteBulk', ({ channel, ids }) =>
-    ids.forEach(id => api.emit('messageDelete', { channel, id }))
-  )
+  socket.on('messageDeleteBulk', ({ channel, ids }) => ids.forEach(id => api.emit('messageDelete', { channel, id })))
 
   socket.on('messageReactionAdd', d => api.emit('messageReactionAdd', d))
   socket.on('messageReactionRemove', d => api.emit('messageReactionRemove', d))
