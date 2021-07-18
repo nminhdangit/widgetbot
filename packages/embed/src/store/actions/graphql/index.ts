@@ -7,11 +7,7 @@ import * as queries from 'queries'
 import { Notification } from 'react-notification-system'
 import { subscribe } from 'socket-io'
 
-import {
-  Channel,
-  ChannelResponse,
-  ServerResponse
-} from '../../../types/responses'
+import { Channel, ChannelResponse, ServerResponse } from '../../../types/responses'
 import { getLast } from '../util'
 
 const serverIssues = {
@@ -58,19 +54,10 @@ namespace GraphQL {
           })
     }
 
-    Log(
-      'info',
-      `Fetching server`,
-      state.server.id,
-      ...(loadMessages ? [`with messages on channel`, state.activeChannel] : [])
-    )
+    Log('info', `Fetching server`, state.server.id, ...(loadMessages ? [`with messages on channel`, state.activeChannel] : []))
 
     try {
-      const response = (await request(
-        '/api/graphql',
-        queries.server,
-        variables
-      )) as ServerResponse
+      const response = (await request('/api/graphql', queries.server, variables)) as ServerResponse
 
       if (loadMessages) {
         subscribe(state.activeChannel)
@@ -82,11 +69,16 @@ namespace GraphQL {
         response && response.errors
           ? response.errors.map(error => ({
               level: 'error',
-              title: 'An error occured whilst loading this embed',
+              title: 'An error occurred whilst loading this embed (loading messages)',
               message: error.message,
               autoDismiss: 0
             }))
           : serverIssues
+
+      if (response && response.errors) {
+        console.log(response)
+        response.errors.map(error => console.error(error))
+      }
 
       return path.error({ notification: errors })
     }
@@ -135,7 +127,7 @@ namespace GraphQL {
         response && response.errors
           ? response.errors.map(error => ({
               level: 'error',
-              title: 'An error occured whilst loading this embed',
+              title: 'An error occurred while loading this embed (fetching channels)',
               message: error.message,
               autoDismiss: 0
             }))
@@ -148,10 +140,7 @@ namespace GraphQL {
   /**
    * Updates a channel in the store
    */
-  export function updateChannel({
-    state,
-    props
-  }: Context<{ channel: Channel }>) {
+  export function updateChannel({ state, props }: Context<{ channel: Channel }>) {
     const channel = props.channel.id
     const prev = state.channels.get(channel)
 

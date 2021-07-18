@@ -28,7 +28,7 @@ class Controller extends Stateful {
 
   /**
    * Returns a room for a given request
-   * @param data
+   * @param channel Channel
    */
   getRoom(channel: string) {
     if (typeof channel === 'string') {

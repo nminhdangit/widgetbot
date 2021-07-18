@@ -4,11 +4,7 @@ import { Notification } from 'react-notification-system'
 import SocketController from '.'
 import Messages from './messages'
 
-export const sendErrors = (notification: Notification) => (
-  target: SocketController,
-  propertyKey: string,
-  descriptor: PropertyDescriptor
-) => {
+export const sendErrors = (notification: Notification) => (target: SocketController, propertyKey: string, descriptor: PropertyDescriptor) => {
   const method = descriptor.value
 
   descriptor.value = async function(...args) {
@@ -18,7 +14,7 @@ export const sendErrors = (notification: Notification) => (
       this.notify({
         level: 'warning',
         autoDismiss: 20,
-        title: `Something went wrong! (whilst handling '${propertyKey}')`,
+        title: `Something went wrong! (while handling '${propertyKey}')`,
         message,
         ...notification
       })
@@ -31,12 +27,7 @@ type Validate = (value: any) => boolean
 
 type Expected = keyof typeof is | Validate
 
-export function Expect(
-  value: any,
-  expected: Expected | Expected[],
-  name?: string | Callback,
-  error?: string
-) {
+export function Expect(value: any, expected: Expected | Expected[], name?: string | Callback, error?: string) {
   if (!is.array(expected)) expected = [expected]
 
   let message: string
@@ -47,9 +38,7 @@ export function Expect(
 
     const expectedType = is.string(expect) ? expect : 'special'
 
-    message = is.function_(name)
-      ? name(value, expectedType)
-      : Messages.TYPE_ERROR(name || 'value', expectedType, is(value))
+    message = is.function_(name) ? name(value, expectedType) : Messages.TYPE_ERROR(name || 'value', expectedType, is(value))
   })
 
   if (!valid) throw message

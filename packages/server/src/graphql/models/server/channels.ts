@@ -5,13 +5,13 @@ import Permissions from 'engine/permissions'
 import memoize from 'memoizee'
 import timestring from 'timestring'
 
-import { Channel } from './../../../types/message'
+import { Channel } from '../../../types/message'
 
 async function Channels(server: string) {
-  const guild = client.guilds.get(server)
+  const guild = client.guilds.cache.get(server)
 
   const channels = await Promise.all(
-    guild.channels
+    guild.channels.cache
       // Only allow text channels
       .filter(channel => channel.type === 'text')
 
@@ -19,20 +19,20 @@ async function Channels(server: string) {
       .sort((a, b) => (a.position > b.position ? 1 : -1))
 
       // Inject extra details into the channels
-      .map(async (channel: TextChannel): Promise<Channel> => {
-        const { parent, name, topic, id } = channel
+      .map(
+        async (channel: TextChannel): Promise<Channel> => {
+          const { parent, name, topic, id } = channel
 
-        const permissions = await Permissions({ server, channel: id })
-        const category = parent ? parent.name : null
+          const permissions = await Permissions({ server, channel: id })
+          const category = parent ? parent.name : null
 
-        return { name, topic, id, category, permissions }
-      })
+          return { name, topic, id, category, permissions }
+        }
+      )
   )
 
   // Filter the channels by whether they have the READ_MESSAGES permission
-  return channels.filter(
-    ({ permissions }) => (permissions ? permissions.READ_MESSAGES : false)
-  )
+  return channels.filter(({ permissions }) => (permissions ? permissions.READ_MESSAGE_HISTORY : false))
 }
 
 export default memoize(Channels, {

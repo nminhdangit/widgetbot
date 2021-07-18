@@ -5,7 +5,7 @@ function Role(role: Discord.Role) {
   return {
     name: role.name,
     color: role.hexColor,
-    position: role.calculatedPosition
+    position: role.rawPosition
   }
 }
 

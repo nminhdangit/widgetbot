@@ -55,7 +55,7 @@ class Guest {
       {
         user: {
           name: this.name,
-          avatar: this.avatar || message.author.avatarURL,
+          avatar: this.avatar || message.author.avatarURL(),
           id: this.id
         },
         id: message.id
@@ -88,20 +88,19 @@ class Guest {
     }
 
     const webhooks = await channel.fetchWebhooks()
-    let [webhook] = webhooks.filterArray(
-      ({ name }) => name === config.discord.webhook
-    )
+    // let [webhook] = webhooks.filterArray(({ name }) => name === config.discord.webhook)
+    let webhook
+    Object.values(webhooks).forEach(hook => {
+      if (hook.name === config.discord.webhook) webhook = hook
+    })
+    // let [webhook] = webhooks[config.discord.webhook]
 
     if (webhook) {
       return await this.sendMessageAsWebhook(channel, webhook, message)
     }
 
     try {
-      const newWebhook = await channel.createWebhook(
-        config.discord.webhook,
-        null,
-        'Allows WidgetBot users to write messages to this channel'
-      )
+      const newWebhook = await channel.createWebhook(config.discord.webhook, { reason: 'Allows WidgetBot users to write messages to this channel' })
       return await this.sendMessageAsWebhook(channel, newWebhook, message)
     } catch (error) {
       logger.log('debug', error.toString())
@@ -121,11 +120,7 @@ class Guest {
     return newMessage
   }
 
-  async sendMessageAsWebhook(
-    channel: Discord.TextChannel,
-    webhook: Discord.Webhook,
-    message: string
-  ) {
+  async sendMessageAsWebhook(channel: Discord.TextChannel, webhook: Discord.Webhook, message: string) {
     // The client.on('message') event is called
     // before our .then callback. Hack to detect this
     Pending.instantate(message)
@@ -148,10 +143,7 @@ class Guest {
   private typingTimeout
   async startTyping(channelID: string) {
     try {
-      const { channel } = await fetchChannel(
-        { server: this.server, channel: channelID },
-        'SEND_MESSAGES'
-      )
+      const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
 
       channel.startTyping()
 
@@ -165,10 +157,7 @@ class Guest {
 
   async stopTyping(channelID: string) {
     try {
-      const { channel } = await fetchChannel(
-        { server: this.server, channel: channelID },
-        'SEND_MESSAGES'
-      )
+      const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
       channel.stopTyping()
 
       // Clear typing timeout

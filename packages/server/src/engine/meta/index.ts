@@ -5,23 +5,17 @@ import memoize from 'memoizee'
 import generator from './generator'
 import Screenshot from './screenshot'
 
-async function metaTags(req: {
-  server?: string
-  channel?: string
-  url: string
-}) {
+async function metaTags(req: { server?: string; channel?: string; url: string }) {
   const screenshot = Screenshot(req.url)
 
   if (req.server) {
-    const guild = client.guilds.get(req.server)
+    const guild = client.guilds.cache.get(req.server)
 
     if (guild) {
-      const description = `There are ${
-        guild.memberCount
-      } members in this server`
+      const description = `There are ${guild.memberCount} members in this server`
 
       if (req.channel) {
-        const channel = guild.channels.get(req.channel) as TextChannel
+        const channel = guild.channels.cache.get(req.channel) as TextChannel
 
         if (channel) {
           return generator({
