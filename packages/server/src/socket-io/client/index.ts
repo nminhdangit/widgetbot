@@ -9,6 +9,7 @@ import Controller from './controller'
 import Messages from './messages'
 import * as Parse from './parse'
 import { sendErrors } from './util'
+import io from 'socket.io'
 
 const meta = Meta('Socket')
 
@@ -22,12 +23,11 @@ class SocketController extends Controller {
     typing: false
   }
 
-  constructor(socket: SocketIO.Socket) {
+  constructor(socket: io.Socket) {
     super()
     this.socket = socket
 
-    const ip =
-      socket.handshake.headers['x-real-ip'] || socket.conn.remoteAddress
+    const ip = socket.handshake.headers['x-real-ip'] || socket.conn.remoteAddress
     this.setState({ ip })
 
     // Flows
@@ -141,11 +141,7 @@ class SocketController extends Controller {
   private typing(data) {
     if (!this.guest) return
 
-    if (
-      data instanceof Object &&
-      typeof data.channel === 'string' &&
-      typeof data.typing === 'boolean'
-    ) {
+    if (data instanceof Object && typeof data.channel === 'string' && typeof data.typing === 'boolean') {
       const { channel, typing } = data
 
       // Stop typing on previous channel
@@ -216,9 +212,7 @@ class SocketController extends Controller {
   /**
    * Socket.io subscription handler
    */
-  private handleSubscription = (
-    type: 'subscribe' | 'unsubscribe'
-  ) => async data => {
+  private handleSubscription = (type: 'subscribe' | 'unsubscribe') => async data => {
     try {
       const { channel, room } = this.getRoom(data)
       const method: string = type === 'subscribe' ? 'join' : 'leave'

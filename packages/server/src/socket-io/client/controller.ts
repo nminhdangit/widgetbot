@@ -2,9 +2,10 @@ import config from 'config'
 import { Guest } from 'engine/guests'
 import { Notification } from 'react-notification-system'
 import Stateful from 'stateful'
+import io from 'socket.io'
 
 class Controller extends Stateful {
-  socket: SocketIO.Socket
+  socket: io.Socket
   guest: Guest
 
   /**

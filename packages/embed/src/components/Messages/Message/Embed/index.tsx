@@ -3,7 +3,7 @@ import { parseAllowLinks, parseEmbedTitle } from 'markdown/render'
 import * as Moment from 'moment'
 import * as React from 'react'
 
-import { Twemoji } from '../Markdown/elements'
+import { Twemoji } from 'emoji'
 import { Content, Root, Title, Wrapper } from './elements'
 import { Author, AuthorIcon, AuthorName } from './elements/author'
 import { ColorPill } from './elements/colorpill'
@@ -48,10 +48,7 @@ const EmbedTitle = ({ title, url }) =>
     )
   ) : null
 
-const EmbedDescription = ({ content }) =>
-  content ? (
-    <Description>{parseEmojis(parseAllowLinks(content))}</Description>
-  ) : null
+const EmbedDescription = ({ content }) => (content ? <Description>{parseEmojis(parseAllowLinks(content))}</Description> : null)
 
 const EmbedAuthor = ({ name, url, iconURL }) => {
   if (!name) {
@@ -85,12 +82,8 @@ const EmbedField = ({ name, value, inline }) => {
     return null
   }
 
-  const fieldName = name ? (
-    <FieldName>{parseEmojis(parseEmbedTitle(name))}</FieldName>
-  ) : null
-  const fieldValue = value ? (
-    <FieldValue>{parseEmojis(parseAllowLinks(value))}</FieldValue>
-  ) : null
+  const fieldName = name ? <FieldName>{parseEmojis(parseEmbedTitle(name))}</FieldName> : null
+  const fieldValue = value ? <FieldValue>{parseEmojis(parseAllowLinks(value))}</FieldValue> : null
 
   return (
     <Field inline={inline}>
@@ -114,14 +107,7 @@ const EmbedThumbnail = ({ type, proxyURL, height, width }) =>
 const EmbedImage = ({ proxyURL, height, width }) =>
   proxyURL ? (
     <span>
-      <Thumbnail
-        rich
-        src={proxyURL}
-        height={height}
-        width={width}
-        maxWidth={400}
-        maxHeight={300}
-      />
+      <Thumbnail rich src={proxyURL} height={height} width={width} maxWidth={400} maxHeight={300} />
     </span>
   ) : null
 
@@ -133,12 +119,9 @@ const EmbedFooter = ({ timestamp, text, proxyIconUrl }) => {
   // pass null, since undefined will make moment(...) return the current date/time
   let time = Moment(timestamp !== undefined ? timestamp : null)
 
-  const footerText = [text, time.isValid() ? time.calendar() : null]
-    .filter(Boolean)
-    .join(' • ')
+  const footerText = [text, time.isValid() ? time.calendar() : null].filter(Boolean).join(' • ')
 
-  const footerIcon =
-    text && proxyIconUrl ? <FooterIcon src={proxyIconUrl} /> : null
+  const footerIcon = text && proxyIconUrl ? <FooterIcon src={proxyIconUrl} /> : null
 
   return (
     <Footer>
@@ -156,29 +139,13 @@ const EmbedFields = ({ fields }) => {
   return <Fields>{fields.map((f, i) => <EmbedField key={i} {...f} />)}</Fields>
 }
 
-const Embed = ({
-  color,
-  author,
-  title,
-  url,
-  description,
-  fields,
-  thumbnail,
-  image,
-  timestamp,
-  footer,
-  ...embed
-}) =>
+const Embed = ({ color, author, title, url, description, fields, thumbnail, image, timestamp, footer, ...embed }) =>
   embed.type === 'gifv' ? (
-    <Image
-      src={embed.video.url.replace('.mp4', '.gif')}
-      width={+embed.video.width}
-      height={+embed.video.height}
-    />
+    <Image src={embed.video.url.replace('.mp4', '.gif')} width={+embed.video.width} height={+embed.video.height} />
   ) : (
     <ThemeProvider
       theme={theme => ({
-        ...theme,
+        ...(theme as {}),
         embed
       })}
     >

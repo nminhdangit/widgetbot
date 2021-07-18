@@ -1,4 +1,4 @@
-import { io } from '../../controllers/app'
+import { io } from 'app'
 
 function stats() {
   const rooms = io.sockets.adapter.rooms
@@ -22,9 +22,7 @@ function stats() {
 
   return {
     clients,
-    servers: servers.sort(
-      ([, aSize], [, bSize]) => (aSize === bSize ? 0 : bSize > aSize ? 1 : -1)
-    )
+    servers: servers.sort(([, aSize], [, bSize]) => (aSize === bSize ? 0 : bSize > aSize ? 1 : -1))
   }
 }
 
