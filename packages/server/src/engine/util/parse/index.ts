@@ -39,7 +39,7 @@ async function Parse(message: Discord.Message) {
         name: member.displayName,
         id: member.id,
         roles: member.roles.cache.map(role => Role(role)),
-        avatar: member.user.avatarURL ? member.user.avatarURL().replace(/\?size=(.*)/, '?size=128') : null
+        avatar: member.user.avatarURL() ? member.user.avatarURL().replace(/\?size=(.*)/, '?size=128') : null
       })),
       roles: await Roles(message.mentions.roles.array()),
       everyone: message.mentions.everyone
