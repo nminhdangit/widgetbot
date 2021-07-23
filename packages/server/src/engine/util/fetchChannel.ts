@@ -28,7 +28,7 @@ async function fetchChannel(
   if (!textChannel) throw Messages.BAD_CHANNEL
 
   // If the permissions are bad
-  if (!permissions || textChannel.permissionsFor(client.user).has(permissions)) {
+  if (!permissions || textChannel.permissionsFor(client.user).has(permissions, true)) {
     return {
       guild: textChannel.guild,
       channel: textChannel as Discord.TextChannel,
