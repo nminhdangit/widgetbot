@@ -10,10 +10,10 @@ import { Channel } from '../../../types/message'
 async function Channels(server: string) {
   const guild = client.guilds.cache.get(server)
 
-  const channels = await Promise.all(
+  return await Promise.all(
     guild.channels.cache
-      // Only allow text channels
-      .filter(channel => channel.type === 'text')
+      // Only allow text channels and channels we have permission to (namely viewing the channel itself, and its history).
+      .filter(channel => channel.type === 'text' && channel.permissionsFor(client.user).has(['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']))
 
       // Order channels by position
       .sort((a, b) => (a.position > b.position ? 1 : -1))
@@ -31,8 +31,14 @@ async function Channels(server: string) {
       )
   )
 
-  // Filter the channels by whether they have the READ_MESSAGES permission
-  return channels.filter(({ permissions }) => (permissions ? permissions.READ_MESSAGE_HISTORY : false))
+  // // Filter the channels by whether they have the READ_MESSAGES permission
+  // return channels.filter(({ permissions }) => {
+  // 	if (!permissions)
+  // 		return false
+  // 	if (!permissions.VIEW_CHANNEL)
+  // 		return false
+  // 	return permissions.READ_MESSAGE_HISTORY
+  // })
 }
 
 export default memoize(Channels, {
