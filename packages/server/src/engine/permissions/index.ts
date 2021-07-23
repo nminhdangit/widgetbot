@@ -22,9 +22,7 @@ async function Permissions(req: { server: string; channel: string }) {
   })
 
   // Merge the permissions
-  const permissions = Merge(bot, everyone)
-
-  return permissions
+  return Merge(bot, everyone)
 }
 
 export default memoize(Permissions, {

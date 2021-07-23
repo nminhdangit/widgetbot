@@ -3,14 +3,13 @@ import { PermissionObject } from 'discord.js'
 /**
  * Merges permissions into one
  * @param bot The permissions for the bot on the channel
- * @param role The permissions for a role on the channel
  * @param everyone The permissions for @everyone on the channel
  */
 function Merge(bot: PermissionObject, everyone: PermissionObject) {
   const user = everyone
 
   // If the bot can't send messages, the user can't either
-  if ((bot.SEND_MESSAGES === bot.MANAGE_WEBHOOKS) === false) user.SEND_MESSAGES = false
+  if (!(bot.SEND_MESSAGES === bot.MANAGE_WEBHOOKS)) user.SEND_MESSAGES = false
 
   // If the bot can / can't read messages, the user can / can't either
   if (bot.READ_MESSAGE_HISTORY !== null) user.READ_MESSAGE_HISTORY = bot.READ_MESSAGE_HISTORY
