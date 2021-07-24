@@ -12,8 +12,8 @@ async function Channels(server: string) {
 
   return await Promise.all(
     guild.channels.cache
-      // Only allow text channels and channels we have permission to (namely viewing the channel itself, and its history).
-      .filter(channel => channel.type === 'text' && channel.permissionsFor(client.user).has(['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']))
+      // Only allow text & news channels we have permission to view.
+      .filter(channel => (channel.type === 'text' || channel.type === 'news') && channel.permissionsFor(client.user).has('VIEW_CHANNEL'))
 
       // Order channels by position
       .sort((a, b) => (a.position > b.position ? 1 : -1))
@@ -21,12 +21,12 @@ async function Channels(server: string) {
       // Inject extra details into the channels
       .map(
         async (channel: TextChannel): Promise<Channel> => {
-          const { parent, name, topic, id } = channel
+          const { parent, name, topic, type, id } = channel
 
           const permissions = await Permissions({ server, channel: id })
           const category = parent ? parent.name : null
 
-          return { name, topic, id, category, permissions }
+          return { name, topic, type, id, category, permissions }
         }
       )
   )

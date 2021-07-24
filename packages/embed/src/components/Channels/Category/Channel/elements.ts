@@ -1,5 +1,5 @@
 import { css, keyframes } from 'emotion'
-import Channel, { Hash } from 'styled-elements/channel'
+import Channel, { Hash, MegaphoneIcon } from 'styled-elements/channel'
 import styled from 'typed-emotion'
 
 const fade = i => keyframes`
@@ -34,19 +34,13 @@ export const Root = styled(Channel)<Props>`
   width: calc(100% - 16px);
   margin: 2px 8px;
   padding: 0 8px;
-  background-color: ${({ selected, theme }) =>
-    selected
-      ? `${theme.colors._primary.fadeOut(0.9)} !important`
-      : 'transparent'};
+  background-color: ${({ selected, theme }) => (selected ? `${theme.colors._primary.fadeOut(0.9)} !important` : 'transparent')};
   color: ${({ selected, unread, theme }) =>
-    selected || unread
-      ? `${theme.colors._primary.fadeOut(0.1).toString()} !important`
-      : theme.colors._primary.fadeOut(0.7).toString()};
+    selected || unread ? `${theme.colors._primary.fadeOut(0.1).toString()} !important` : theme.colors._primary.fadeOut(0.7).toString()};
   /* animation: ${({ order }) => fade(order)} 0.5s ease; */
 
   &:hover {
-    background-color: ${({ theme }) =>
-      theme.colors._primary.fadeOut(0.96).toString()};
+    background-color: ${({ theme }) => theme.colors._primary.fadeOut(0.96).toString()};
     color: ${({ theme }) => theme.colors._primary.fadeOut(0.3).toString()};
   }
 
@@ -77,6 +71,14 @@ export const Root = styled(Channel)<Props>`
 `
 
 export const Hashtag = styled(Hash)`
+  flex-shrink: 0;
+  opacity: 0.6;
+  height: 100%;
+  width: 16px;
+  margin-right: 7px;
+`
+
+export const Megaphone = styled(MegaphoneIcon)`
   flex-shrink: 0;
   opacity: 0.6;
   height: 100%;

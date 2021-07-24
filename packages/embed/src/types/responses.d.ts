@@ -8,6 +8,7 @@ type Channels = {
   name: string
   unread: boolean
   id: string
+  type: string
   category: string
   permissions: Permissions
 }[]

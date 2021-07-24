@@ -110,6 +110,7 @@ export const server = gql`
         name
         category
         id
+	      type
         permissions {
           SEND_MESSAGES
         }

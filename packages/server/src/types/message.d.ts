@@ -3,6 +3,7 @@ import { TextChannel, PermissionObject } from 'discord.js'
 export interface Channel {
   name: string
   topic: string
+  type: string
   id: string
   category: string
   permissions: PermissionObject

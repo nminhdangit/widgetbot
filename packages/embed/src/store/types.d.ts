@@ -1,6 +1,6 @@
 import { ComputedValue, Dictionary } from '@cerebral/fluent'
 
-import { Translation } from '../app/locales'
+import { Translation } from 'locales'
 import { Category } from '../types/category'
 import Message from '../types/message'
 import Modal from '../types/modal'
@@ -12,6 +12,7 @@ import * as signals from './sequences'
 export interface Channel {
   name: string
   id: string
+  type: string
   category: string
   permissions: Permissions
   lastSeenID: string

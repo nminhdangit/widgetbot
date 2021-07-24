@@ -32,7 +32,7 @@ class ChannelCategory extends React.PureComponent<Props> {
           </Name>
         )}
 
-        {category.channels.map(({ name, id, unread }, order) => {
+        {category.channels.map(({ name, id, type, unread }, order) => {
           const selected = activeChannel === id
 
           return this.state.open || selected || unread ? (
@@ -40,6 +40,7 @@ class ChannelCategory extends React.PureComponent<Props> {
               key={id}
               {...{
                 name,
+                type,
                 id,
                 order,
                 unread,
@@ -52,4 +53,5 @@ class ChannelCategory extends React.PureComponent<Props> {
     )
   }
 }
+
 export default ChannelCategory
