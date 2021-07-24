@@ -28,7 +28,7 @@ const Categorise = (channels: Channels): Category[] => {
       // The channel doesn't belong in a named category
       const lastCategory = categorised[categorised.length - 1]
 
-      // If the last category was unamed, then insert
+      // If the last category was unnamed, then insert
       // this channel into it
       if (lastCategory && !lastCategory.name) {
         lastCategory.channels.push(channel)

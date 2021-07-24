@@ -1,10 +1,11 @@
 import * as React from 'react'
 
-import { Hashtag, Name, Pings, Root } from './elements'
+import { Hashtag, Megaphone, Name, Pings, Root } from './elements'
 
 interface Props {
   name: string
   unread: boolean
+  type: string
   id: string
   order: number
   selected: boolean
@@ -22,11 +23,12 @@ class Channel extends React.PureComponent<Props> {
   }
 
   render() {
-    const { name } = this.props
+    const { name, type } = this.props
 
     return (
       <Root {...this.props} className="channel">
-        <Hashtag className="hash" />
+        {type === 'text' && <Hashtag className="hash" />}
+        {type === 'news' && <Megaphone className="megaphone" />}
         <Name ref={ref => (this.name = ref)} className="name">
           {name}
         </Name>

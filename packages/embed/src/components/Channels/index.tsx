@@ -32,7 +32,6 @@ export default connect()
                   />
                 ))}
               </Categories>
-              <Panel />
             </Root>
           )
         }

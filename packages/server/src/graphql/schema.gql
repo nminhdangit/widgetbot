@@ -82,6 +82,8 @@ type Channels {
   name: String!
   "The channel ID"
   id: String!
+  "Type of text channel"
+  type: String
   "The channel category"
   category: String
   "The permissions the guest has on the channel"
