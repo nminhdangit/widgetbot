@@ -20,8 +20,11 @@ export const guests = new Guests()
 export async function Login(token: string) {
   const meta = Meta('Discord')
 
-  client.login(token)
-  await async(client).on('ready')
+  await client.login(token)
+  await new Promise<void>(resolve => {
+    client.on('ready', () => resolve())
+  })
+  // await async(client).on('ready')
 
   // Start toggling playing status
   if (config.discord.statuses && config.discord.statuses.length) PlayingStatus.start()
@@ -30,7 +33,7 @@ export async function Login(token: string) {
   /**
    * Message events
    */
-  client.on('message', data => {
+  client.on('messageCreate', data => {
     // Command engine
     if (data.mentions.users.has(client.user.id)) Commands(data)
 

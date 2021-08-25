@@ -2,7 +2,7 @@ import { store } from 'database'
 import Guest from 'database/models/Guest'
 import { cache, client } from 'engine'
 
-import { io } from '../../../controllers/app'
+import { io } from 'app'
 
 const Stats = {
   totalServers: () => client.guilds.cache.size,
@@ -11,7 +11,6 @@ const Stats = {
     client.guilds.cache.forEach(guild => (total += guild.memberCount))
     return total
   },
-
   async totalGuests() {
     const guests = await store.guests.find({})
     return guests.length

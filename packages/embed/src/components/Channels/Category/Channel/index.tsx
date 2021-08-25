@@ -27,8 +27,8 @@ class Channel extends React.PureComponent<Props> {
 
     return (
       <Root {...this.props} className="channel">
-        {type === 'text' && <Hashtag className="hash" />}
-        {type === 'news' && <Megaphone className="megaphone" />}
+        {type === 'GUILD_TEXT' && <Hashtag className="hash" />}
+        {type === 'GUILD_NEWS' && <Megaphone className="megaphone" />}
         <Name ref={ref => (this.name = ref)} className="name">
           {name}
         </Name>

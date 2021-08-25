@@ -6,8 +6,7 @@ function fetchRole({ serverID, roleID }: { serverID: string; roleID: string }) {
   }
 
   const guild = client.guilds.cache.get(serverID)
-  const role = guild.roles.cache.find(role => role.id === roleID)
-  return role
+  return guild.roles.cache.find(role => role.id === roleID)
 }
 
 export default fetchRole

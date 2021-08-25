@@ -1,4 +1,4 @@
-import { TextChannel, PermissionObject } from 'discord.js'
+import { PermissionString } from 'discord.js'
 
 export interface Channel {
   name: string
@@ -6,7 +6,7 @@ export interface Channel {
   type: string
   id: string
   category: string
-  permissions: PermissionObject
+  permissions: string[]
 }
 
 interface Message {

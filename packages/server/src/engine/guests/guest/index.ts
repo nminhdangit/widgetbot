@@ -77,7 +77,7 @@ class Guest {
     const guestPermissions = await Permissions(req)
 
     // Disallow guests without permission from sending messages
-    if (!guestPermissions.has(Discord.Permissions.FLAGS.SEND_MESSAGES)) {
+    if (!guestPermissions.includes('SEND_MESSAGES')) {
       throw `You don't have permission to send messages on this channel`
     }
 

@@ -150,10 +150,7 @@ namespace GraphQL {
       name: props.channel.name,
       topic: props.channel.topic,
       messages: props.channel.messages,
-      permissions: {
-        ...(prev && prev.permissions),
-        ...props.channel.permissions
-      }
+      permissions: prev && prev.permissions // carry over cached permissions, instead of re-fetching them from the server.
     })
   }
 

@@ -5556,7 +5556,7 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-doasync@~2.0.0:
+doasync@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/doasync/-/doasync-2.0.1.tgz#5654811b087fc1820eaa8be51f544442299736ab"
   integrity sha512-5u7qAb+ACe2dvxHXrhjWNAfWuj42yB45Z9ght+U9QkB09nNGYMw5S4q6sXcpVnxjcKGl0jUYcxrGpR6kBTGJHw==
