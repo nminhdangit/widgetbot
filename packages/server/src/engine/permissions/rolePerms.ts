@@ -1,4 +1,4 @@
-import { PermissionObject, Permissions, PermissionString } from 'discord.js'
+import { Permissions } from 'discord.js'
 import fetchChannel from 'engine/util/fetchChannel'
 import flags from './flags'
 
@@ -13,7 +13,7 @@ async function rolePerms({ snowflake, ...req }: Request) {
   const permissions = new Map(flags)
 
   // Attempt to get the overwrites for the channel
-  const overwrites = channel.permissionOverwrites.get(snowflake)
+  const overwrites = channel.permissionOverwrites.cache.get(snowflake)
 
   if (overwrites) {
     // Access overwrites as high-level API
@@ -38,7 +38,7 @@ async function rolePerms({ snowflake, ...req }: Request) {
     })
   }
 
-  const permissionObject = {} as PermissionObject
+  const permissionObject = {} as Permissions
   permissions.forEach((v, k) => (permissionObject[k] = v))
   return permissionObject
 }

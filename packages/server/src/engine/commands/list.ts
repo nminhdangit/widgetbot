@@ -5,7 +5,6 @@ import * as sudo from './sudo'
 
 export const list = {
   help,
-  invite,
   show,
   sudo
 }

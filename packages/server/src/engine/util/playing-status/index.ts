@@ -39,7 +39,7 @@ namespace PlayingStatus {
     const context = await getContext()
     const status = template(statuses[position], context)
 
-    client.user.setPresence({ activity: { name: status } })
+    client.user.setPresence({ activities: [{ name: status }] })
   }
 
   /**

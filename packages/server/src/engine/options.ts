@@ -1,8 +1,9 @@
 import config from 'config'
-import { ClientOptions } from 'discord.js'
+import { ClientOptions, Intents, Options } from 'discord.js'
 
 const options: ClientOptions = {
-  messageCacheMaxSize: config.cache['graphql.messageHistory'],
+  intents: [Intents.FLAGS.GUILD_MESSAGES], //TODO: Verify that this is the only intent we need.
+  makeCache: Options.cacheWithLimits({ MessageManager: config.cache['graphql.messageHistory'] }),
   messageSweepInterval: 10
 }
 

@@ -7,7 +7,7 @@ async function Member(member: GuildMember) {
     ? {
         name: `${member.displayName}#${member.user.discriminator}`,
         color: member.displayHexColor,
-        roles: await Roles(member.roles.cache.array())
+        roles: await Roles([...member.roles.cache.values()])
       }
     : {
         roles: null,

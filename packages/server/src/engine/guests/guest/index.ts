@@ -3,6 +3,7 @@ import 'database/guest'
 import config from 'config'
 import { SetEnhancer } from 'database/guest-message'
 import * as Pending from 'database/guest-message/pending'
+import { Webhook } from 'discord.js'
 import * as Discord from 'discord.js'
 import Permissions from 'engine/permissions'
 import fetchChannel from 'engine/util/fetchChannel'
@@ -76,7 +77,7 @@ class Guest {
     const guestPermissions = await Permissions(req)
 
     // Disallow guests without permission from sending messages
-    if (!guestPermissions.SEND_MESSAGES) {
+    if (!guestPermissions.has(Discord.Permissions.FLAGS.SEND_MESSAGES)) {
       throw `You don't have permission to send messages on this channel`
     }
 
@@ -126,7 +127,8 @@ class Guest {
     Pending.instantate(message)
 
     try {
-      const newMessage = (await webhook.send(message, {
+      const newMessage = (await webhook.send({
+        content: message,
         username: this.name,
         avatarURL: this.avatar
       })) as Discord.Message
@@ -145,11 +147,7 @@ class Guest {
     try {
       const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
 
-      channel.startTyping()
-
-      // Auto-stop typing after 2 seconds
-      clearTimeout(this.typingTimeout)
-      this.typingTimeout = setTimeout(() => channel.stopTyping(), 2000)
+      channel.sendTyping()
     } catch (e) {
       // Bad perms
     }
@@ -158,7 +156,6 @@ class Guest {
   async stopTyping(channelID: string) {
     try {
       const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
-      channel.stopTyping()
 
       // Clear typing timeout
       clearTimeout(this.typingTimeout)

@@ -14,20 +14,23 @@ const replaceAll = (string, matches: string[], replace: string) => {
   return result
 }
 
-const removeMentions = string =>
-  replaceAll(string, [`<@${client.user.id}>`, `<@!${client.user.id}>`], '')
+const removeMentions = string => replaceAll(string, [`<@${client.user.id}>`, `<@!${client.user.id}>`], '')
 const removeWhitespace = string => string.trim()
 const splitCommands = string => string.split(/ (.*)/)
 const toLowercase = (strings: string[]) => strings.map(s => s.toLowerCase())
 
-const parse = pipe(removeMentions, removeWhitespace, splitCommands, toLowercase)
+const parse = pipe(
+  removeMentions,
+  removeWhitespace,
+  splitCommands,
+  toLowercase
+)
 const getHandler = (command): ((payload: IArgs) => void) => {
   // prettier-ignore
   switch (command) {
     case 'show': return Show
     case 'sudo': return Sudo
     case 'help': return Help
-    case 'invite': return Invite
     default: return null
   }
 }
@@ -48,7 +51,7 @@ async function Commands(message: Message) {
   if (handler) {
     handler({ payload, message })
   } else {
-    message.reply(...HelpWithCommand(command))
+    message.reply({ content: HelpWithCommand(command) })
   }
 }
 

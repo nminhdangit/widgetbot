@@ -1,3 +1,4 @@
+import { GuildChannel, TextChannel } from 'discord.js'
 import { client } from 'engine'
 import Messages from 'engine/messages'
 import memoize from 'memoizee'
@@ -15,11 +16,11 @@ async function fetchInvite(req: { server: string; channel?: string }) {
     // permission to create an invite on it,
     // fallback to a random channel with permission
     if (!channel || !channel.permissionsFor(client.user).has('CREATE_INSTANT_INVITE')) {
-      channel = guild.channels.cache.find(channel => channel.type === 'text' && channel.permissionsFor(client.user).has('CREATE_INSTANT_INVITE'))
+      channel = guild.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user).has('CREATE_INSTANT_INVITE'))
     }
 
     if (channel) {
-      const invite = await channel.createInvite({
+      const invite = await (channel as TextChannel).createInvite({
         temporary: false,
         maxAge: 0,
         unique: false

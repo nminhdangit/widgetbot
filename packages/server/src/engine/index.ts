@@ -8,7 +8,7 @@ import options from 'engine/options'
 import PlayingStatus from 'engine/util/playing-status'
 import logger, { Meta } from 'logger'
 
-import { io } from '../controllers/app'
+import { io } from 'app'
 import Guests from './guests'
 import MessageStore from './message-store'
 import Parse from './util/parse'
@@ -25,7 +25,7 @@ export async function Login(token: string) {
 
   // Start toggling playing status
   if (config.discord.statuses && config.discord.statuses.length) PlayingStatus.start()
-  else client.user.setPresence({ activity: { name: null } })
+  else client.user.setPresence({ activities: [{ name: null }] })
 
   /**
    * Message events
