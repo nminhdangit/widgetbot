@@ -85,6 +85,7 @@ class Guest {
     const message = sanitize(unsanitized)
 
     if (!permissions.has('MANAGE_WEBHOOKS')) {
+      logger.error(`Missing permission to manage webhooks in #${channel.name}, send message as self`)
       return await this.sendMessageAsSelf(channel, message)
     }
 
@@ -98,13 +99,15 @@ class Guest {
 
     if (webhook) {
       return await this.sendMessageAsWebhook(channel, webhook, message)
+    } else {
+      logger.error(`Could not find own webhook, create new one`)
     }
 
     try {
       const newWebhook = await channel.createWebhook(config.discord.webhook, { reason: 'Allows WidgetBot users to write messages to this channel' })
       return await this.sendMessageAsWebhook(channel, newWebhook, message)
     } catch (error) {
-      logger.log('debug', error.toString())
+      logger.log('error', error.toString())
       return await this.sendMessageAsSelf(channel, message)
     }
   }
@@ -137,7 +140,7 @@ class Guest {
 
       return newMessage
     } catch (error) {
-      logger.log('debug', error.toString())
+      logger.log('error', error.toString())
       return await this.sendMessageAsSelf(channel, message)
     }
   }
