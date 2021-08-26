@@ -1,8 +1,9 @@
 import config from 'config'
 import { Enhance } from 'database/guest-message'
+import { GuildChannel } from 'discord.js'
 import * as Discord from 'discord.js'
 
-import Message, { Embed as EmbedType, Reaction } from '../../../types/message'
+import Message, { Embed as EmbedType } from '../../../types/message'
 import Embed from './embed'
 import Role from './role'
 import Reactions from 'engine/util/parse/reactions'
@@ -21,18 +22,18 @@ async function Parse(message: Discord.Message) {
         : message.author.defaultAvatarURL.replace(/\?size=(.*)/, '?size=64'),
       id: message.author.id,
 
-      ...(await Member(message.guild.member(message.author)))
+      ...(await Member(message.guild.members.cache.get(message.author.id)))
     },
     timestamp: message.createdTimestamp,
     content: message.content || null,
     embeds: message.embeds.map((embed): EmbedType => new Embed(embed) as any),
     editedAt: message.editedTimestamp == 0 ? null : message.editedTimestamp,
     type: message.type,
-    reactions: await Reactions(message.reactions.cache.array()),
-    attachment: await Attachment(message.attachments.array()),
+    reactions: await Reactions([...message.reactions.cache.values()]),
+    attachment: await Attachment([...message.attachments.values()]),
     mentions: {
       channels: message.mentions.channels.map(channel => ({
-        name: channel.name,
+        name: channel instanceof GuildChannel ? (channel as GuildChannel).name : 'unknown',
         id: channel.id
       })),
       members: message.mentions.members.map(member => ({
@@ -41,7 +42,7 @@ async function Parse(message: Discord.Message) {
         roles: member.roles.cache.map(role => Role(role)),
         avatar: member.user.avatarURL() ? member.user.avatarURL().replace(/\?size=(.*)/, '?size=128') : null
       })),
-      roles: await Roles(message.mentions.roles.array()),
+      roles: await Roles([...message.mentions.roles.values()]),
       everyone: message.mentions.everyone
     }
   }

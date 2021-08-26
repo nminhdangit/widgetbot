@@ -8,7 +8,7 @@ import options from 'engine/options'
 import PlayingStatus from 'engine/util/playing-status'
 import logger, { Meta } from 'logger'
 
-import { io } from '../controllers/app'
+import { io } from 'app'
 import Guests from './guests'
 import MessageStore from './message-store'
 import Parse from './util/parse'
@@ -20,17 +20,20 @@ export const guests = new Guests()
 export async function Login(token: string) {
   const meta = Meta('Discord')
 
-  client.login(token)
-  await async(client).on('ready')
+  await client.login(token)
+  await new Promise<void>(resolve => {
+    client.on('ready', () => resolve())
+  })
+  // await async(client).on('ready')
 
   // Start toggling playing status
   if (config.discord.statuses && config.discord.statuses.length) PlayingStatus.start()
-  else client.user.setPresence({ activity: { name: null } })
+  else client.user.setPresence({ activities: [{ name: null }] })
 
   /**
    * Message events
    */
-  client.on('message', data => {
+  client.on('messageCreate', data => {
     // Command engine
     if (data.mentions.users.has(client.user.id)) Commands(data)
 

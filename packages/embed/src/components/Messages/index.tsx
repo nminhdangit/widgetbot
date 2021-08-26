@@ -1,4 +1,5 @@
 import { connect } from 'fluent'
+import { array } from 'prop-types'
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { fetchInvite } from 'socket-io'
@@ -43,13 +44,7 @@ export default connect()
 
             return grouped.length ? (
               <ScrollVisible ref={this.scroll.bind(this)} className="messages">
-                {grouped.map(group => (
-                  <Message
-                    messages={group}
-                    key={group[0].id}
-                    lastSeen={channel.lastSeenID}
-                  />
-                ))}
+                {grouped.map(group => <Message messages={group} key={group[0].id} lastSeen={channel.lastSeenID} />)}
               </ScrollVisible>
             ) : (
               <NoMessages className="no-messages" />
@@ -68,11 +63,7 @@ export default connect()
                 <Name>{channel.name}</Name>
                 {channel.topic && <Topic>{channel.topic}</Topic>}
               </Stretch>
-              <Join
-                href={defaultInvite}
-                target="_blank"
-                onClick={this.join.bind(this)}
-              >
+              <Join href={defaultInvite} target="_blank" onClick={this.join.bind(this)}>
                 <FormattedMessage id="header.join" />
               </Join>
             </Header>
@@ -83,7 +74,7 @@ export default connect()
             <Wrapper>
               {header}
               {content}
-              {channel && channel.permissions.SEND_MESSAGES && <Chat />}
+              {channel && channel.permissions && channel.permissions.includes('SEND_MESSAGES') && <Chat />}
             </Wrapper>
           ) : (
             <ErrorAhoy />
@@ -109,8 +100,7 @@ export default connect()
             addNotification({
               level: 'error',
               title: 'Unable to Join',
-              message:
-                'WidgetBot does not have permissions to invite you to this server...',
+              message: 'WidgetBot does not have permissions to invite you to this server...',
               autoDismiss: 5000
             })
           }

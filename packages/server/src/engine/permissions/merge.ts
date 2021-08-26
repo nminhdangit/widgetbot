@@ -1,23 +1,20 @@
-import { PermissionObject } from 'discord.js'
+import { Permissions, PermissionString } from 'discord.js'
+import logger from 'logger'
 
 /**
  * Merges permissions into one
  * @param bot The permissions for the bot on the channel
  * @param everyone The permissions for @everyone on the channel
  */
-function Merge(bot: PermissionObject, everyone: PermissionObject) {
-  const user = everyone
+function Merge(bot: Permissions, everyone: Permissions): PermissionString[] {
+  const userPermissions = []
 
   // If the bot can't send messages, the user can't either
-  if (!(bot.SEND_MESSAGES === bot.MANAGE_WEBHOOKS)) user.SEND_MESSAGES = false
+  if (bot.has(Permissions.FLAGS.SEND_MESSAGES) || bot.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) userPermissions.push('SEND_MESSAGES')
 
   // If the bot can / can't read messages, the user can / can't either
-  if (bot.READ_MESSAGE_HISTORY !== null) user.READ_MESSAGE_HISTORY = bot.READ_MESSAGE_HISTORY
-
-  // If the bot is set to be allowed to send messages, make it so
-  if (bot.SEND_MESSAGES !== null) user.SEND_MESSAGES = bot.SEND_MESSAGES
-
-  return user
+  if (bot.has(Permissions.FLAGS.READ_MESSAGE_HISTORY)) userPermissions.push('READ_MESSAGE_HISTORY')
+  return userPermissions
 }
 
 export default Merge

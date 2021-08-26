@@ -2,7 +2,6 @@ import { Dictionary } from '@cerebral/fluent'
 
 import { Theme } from '../store/types'
 import Message from './message'
-import { Permissions } from './permissions'
 
 type Channels = {
   name: string
@@ -10,12 +9,12 @@ type Channels = {
   id: string
   type: string
   category: string
-  permissions: Permissions
+  permissions: string[]
 }[]
 
 export interface Channel {
   name: string
-  permissions: Permissions
+  permissions: string[]
   topic?: string
   id?: string
   messages?: Dictionary<Message>

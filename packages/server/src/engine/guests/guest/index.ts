@@ -3,6 +3,7 @@ import 'database/guest'
 import config from 'config'
 import { SetEnhancer } from 'database/guest-message'
 import * as Pending from 'database/guest-message/pending'
+import { Webhook } from 'discord.js'
 import * as Discord from 'discord.js'
 import Permissions from 'engine/permissions'
 import fetchChannel from 'engine/util/fetchChannel'
@@ -76,7 +77,7 @@ class Guest {
     const guestPermissions = await Permissions(req)
 
     // Disallow guests without permission from sending messages
-    if (!guestPermissions.SEND_MESSAGES) {
+    if (!guestPermissions.includes('SEND_MESSAGES')) {
       throw `You don't have permission to send messages on this channel`
     }
 
@@ -84,6 +85,7 @@ class Guest {
     const message = sanitize(unsanitized)
 
     if (!permissions.has('MANAGE_WEBHOOKS')) {
+      logger.error(`Missing permission to manage webhooks in #${channel.name}, send message as self`)
       return await this.sendMessageAsSelf(channel, message)
     }
 
@@ -97,13 +99,15 @@ class Guest {
 
     if (webhook) {
       return await this.sendMessageAsWebhook(channel, webhook, message)
+    } else {
+      logger.error(`Could not find own webhook, create new one`)
     }
 
     try {
       const newWebhook = await channel.createWebhook(config.discord.webhook, { reason: 'Allows WidgetBot users to write messages to this channel' })
       return await this.sendMessageAsWebhook(channel, newWebhook, message)
     } catch (error) {
-      logger.log('debug', error.toString())
+      logger.log('error', error.toString())
       return await this.sendMessageAsSelf(channel, message)
     }
   }
@@ -126,7 +130,8 @@ class Guest {
     Pending.instantate(message)
 
     try {
-      const newMessage = (await webhook.send(message, {
+      const newMessage = (await webhook.send({
+        content: message,
         username: this.name,
         avatarURL: this.avatar
       })) as Discord.Message
@@ -135,7 +140,7 @@ class Guest {
 
       return newMessage
     } catch (error) {
-      logger.log('debug', error.toString())
+      logger.log('error', error.toString())
       return await this.sendMessageAsSelf(channel, message)
     }
   }
@@ -145,11 +150,7 @@ class Guest {
     try {
       const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
 
-      channel.startTyping()
-
-      // Auto-stop typing after 2 seconds
-      clearTimeout(this.typingTimeout)
-      this.typingTimeout = setTimeout(() => channel.stopTyping(), 2000)
+      channel.sendTyping()
     } catch (e) {
       // Bad perms
     }
@@ -158,7 +159,6 @@ class Guest {
   async stopTyping(channelID: string) {
     try {
       const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
-      channel.stopTyping()
 
       // Clear typing timeout
       clearTimeout(this.typingTimeout)

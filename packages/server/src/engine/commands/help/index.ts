@@ -8,27 +8,21 @@ import parseExamples from './parseExamples'
 
 const parseCommand = ([name, help]: Command) => ({
   name: `:gear: ${name}: ${help.info}`,
-  value: `${
-    help.args ? `:information_source: **Params:** ${parseArgs(help.args)}` : ''
-  }\n${help.examples ? parseExamples(name, help.examples) : ''}\n_ _`,
+  value: `${help.args ? `:information_source: **Params:** ${parseArgs(help.args)}` : ''}\n${help.examples ? parseExamples(name, help.examples) : ''}\n_ _`,
   inline: false
 })
 
-export function HelpWithCommand(commandName: string): [string, MessageOptions] {
-  const command =
-    typeof commandName === 'string' &&
-    commands.find(([name]) => name === commandName)
+export function HelpWithCommand(commandName: string): string {
+  const command = typeof commandName === 'string' && commands.find(([name]) => name === commandName)
 
-  return [
-    command ? 'invalid usage of command!' : 'unknown command!',
-    {
-      embed: {
-        ...branding,
-        fields: command ? [parseCommand(command)] : commands.map(parseCommand),
-        color: command ? 16722474 : 7570887
-      }
-    }
-  ]
+  return command ? 'Invalid usage of command!' : 'Unknown command!'
+  // {
+  //   embeds: [{
+  //     fields: command ? [parseCommand(command)] : commands.map(parseCommand),
+  //     color: command ? 16722474 : 7570887
+  //   }]
+  // }
+  //
 }
 
 async function Help({ payload, message }: IArgs) {

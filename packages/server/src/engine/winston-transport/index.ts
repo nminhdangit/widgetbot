@@ -37,18 +37,18 @@ class DiscordTransport extends winston.Transport {
       const { channel } = await this.fetch(discord)
 
       const metadata = _.omit(meta, ['from'])
-      const yml = Object.keys(metadata).length
-        ? '```yaml\n' + yaml.safeDump(metadata) + '```'
-        : ''
+      const yml = Object.keys(metadata).length ? '```yaml\n' + yaml.safeDump(metadata) + '```' : ''
 
       const customEmbed = is.function_(embed) ? embed(meta) : embed
 
-      channel.send('', {
-        embed: customEmbed || {
-          title: `[${level.toUpperCase()}] ${meta.from || ''}`,
-          color: Colors[level],
-          description: _.capitalize(message) + yml
-        }
+      channel.send({
+        embeds: [
+          customEmbed || {
+            title: `[${level.toUpperCase()}] ${meta.from || ''}`,
+            color: Colors[level],
+            description: _.capitalize(message) + yml
+          }
+        ]
       })
     } catch (e) {}
 

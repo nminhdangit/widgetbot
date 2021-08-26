@@ -4,7 +4,6 @@ import { Translation } from 'locales'
 import { Category } from '../types/category'
 import Message from '../types/message'
 import Modal from '../types/modal'
-import { Permissions } from '../types/permissions'
 import { ParsedUrl } from '../types/url'
 import { User } from '../types/user'
 import * as signals from './sequences'
@@ -14,7 +13,7 @@ export interface Channel {
   id: string
   type: string
   category: string
-  permissions: Permissions
+  permissions: string[]
   lastSeenID: string
   unread: boolean
   topic?: string

@@ -111,9 +111,7 @@ export const server = gql`
         category
         id
 	      type
-        permissions {
-          SEND_MESSAGES
-        }
+        permissions
       }
       channel(id: $channel) @include(if: $withChannel) {
         topic
