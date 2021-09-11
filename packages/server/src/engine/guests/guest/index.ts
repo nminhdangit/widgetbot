@@ -91,10 +91,14 @@ class Guest {
 
     const webhooks = await channel.fetchWebhooks()
     // let [webhook] = webhooks.filterArray(({ name }) => name === config.discord.webhook)
-    let webhook
-    Object.values(webhooks).forEach(hook => {
-      if (hook.name === config.discord.webhook) webhook = hook
-    })
+    let webhook: Webhook
+
+    for (const hook of webhooks.values()) {
+      if (hook.name === config.discord.webhook) {
+        webhook = hook
+        break
+      }
+    }
     // let [webhook] = webhooks[config.discord.webhook]
 
     if (webhook) {
@@ -146,6 +150,7 @@ class Guest {
   }
 
   private typingTimeout
+
   async startTyping(channelID: string) {
     try {
       const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
