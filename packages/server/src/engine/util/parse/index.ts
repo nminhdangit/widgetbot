@@ -11,18 +11,19 @@ import Attachment from 'engine/util/parse/attachment'
 import Roles from 'engine/util/parse/roles'
 import Member from 'engine/util/parse/member'
 
+//TODO: Fix member parsing, as it is still inconsistent.
 async function Parse(message: Discord.Message) {
   const parsed: Message = {
     id: message.id,
     author: {
-      name: `${message.author.username}#${message.author.discriminator}`,
+      name: message.author.tag,
       type: message.author.bot ? 'bot' : config.discord.admins.includes(message.author.id) ? 'sysadmin' : 'member',
       avatar: message.author.avatarURL()
         ? message.author.avatarURL().replace(/\?size=(.*)/, '?size=64')
         : message.author.defaultAvatarURL.replace(/\?size=(.*)/, '?size=64'),
       id: message.author.id,
 
-      ...(await Member(message.guild.members.cache.get(message.author.id)))
+      ...(await Member(message.member))
     },
     timestamp: message.createdTimestamp,
     content: message.content || null,

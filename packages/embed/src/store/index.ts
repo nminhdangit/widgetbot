@@ -37,7 +37,7 @@ const state: State = {
   theme: {
     colors: {
       primary: '#fff',
-      accent: '#7289da',
+      accent: '#5865F2',
       background: '#36393E'
     },
     css: ``,

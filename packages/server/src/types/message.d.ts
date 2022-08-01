@@ -1,5 +1,3 @@
-import { PermissionString } from 'discord.js'
-
 export interface Channel {
   name: string
   topic: string
