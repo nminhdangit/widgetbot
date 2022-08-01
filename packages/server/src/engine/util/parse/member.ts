@@ -5,7 +5,7 @@ import Roles from 'engine/util/parse/roles'
 async function Member(member: GuildMember) {
   return member
     ? {
-        name: `${member.displayName}#${member.user.discriminator}`,
+        name: member.displayName,
         color: member.displayHexColor,
         roles: await Roles([...member.roles.cache.values()])
       }
