@@ -1,8 +1,6 @@
 abstract class API<Events extends Object> {
   id: string
-  listeners = {} as {
-    [event in keyof Events]: ((data: Events[event]) => void)[]
-  }
+  listeners = {} as { [event in keyof Events]: ((data: Events[event]) => void)[] }
 
   protected socketEvent(raw: string) {
     try {
@@ -11,11 +9,7 @@ abstract class API<Events extends Object> {
       return
     }
 
-    if (
-      message instanceof Object &&
-      message.widgetbot === true &&
-      message.id === this.id
-    ) {
+    if (message instanceof Object && message.widgetbot === true && message.id === this.id) {
       const { event, data } = message
       const listeners: Function[] = this.listeners[event]
 
@@ -30,16 +24,13 @@ abstract class API<Events extends Object> {
    * @param event Event name
    * @param data Event data
    */
-  public on<T extends keyof Events>(
-    event: T,
-    callback: (data: Events[T]) => void
-  ) {
+  public on<T extends keyof Events>(event: T, callback: (data: Events[T]) => void) {
     if (!this.listeners[event]) this.listeners[event] = []
 
     const listeners = this.listeners[event]
     listeners.push(callback)
 
-    console.debug(`[embed-api] on '${event}'`, callback)
+    console.debug(`[embed-api] on '${String(event)}'`, callback)
   }
 }
 
