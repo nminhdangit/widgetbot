@@ -5,10 +5,12 @@
     "outDir": "./dist/",
     "target": "es6",
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": ".",
     "lib": ["es6", "esnext"],
     "types": ["jest"],
+    "typeRoots": ["node_modules/@types"],
     "experimentalDecorators": true,
     "rootDir": "src",
     "paths": {
