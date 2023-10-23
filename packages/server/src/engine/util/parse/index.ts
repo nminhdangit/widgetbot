@@ -16,7 +16,7 @@ async function Parse(message: Discord.Message) {
   const parsed: Message = {
     id: message.id,
     author: {
-      name: message.author.globalName ?? message.author.tag,
+      name: message.author.globalName || message.author.tag,
       type: message.author.bot ? 'bot' : config.discord.admins.includes(message.author.id) ? 'sysadmin' : 'member',
       avatar: message.author.avatarURL()
         ? message.author.avatarURL().replace(/\?size=(.*)/, '?size=64')
