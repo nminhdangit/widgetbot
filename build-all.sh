@@ -20,11 +20,12 @@ echo "🔨 Building react-embed…"
 echo
 ( set -x; yarn workspace @widgetbot/react-embed build)
 
-echo
-echo
-echo "🔨 Building html-embed…"
-echo
-( set -x; yarn workspace @widgetbot/html-embed build)
+# Since we don't use it, we can skip it hopefully.
+#echo
+#echo
+#echo "🔨 Building html-embed…"
+#echo
+#( set -x; yarn workspace @widgetbot/html-embed build)
 
 echo
 echo

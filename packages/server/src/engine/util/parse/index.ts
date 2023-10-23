@@ -16,7 +16,7 @@ async function Parse(message: Discord.Message) {
   const parsed: Message = {
     id: message.id,
     author: {
-      name: message.author.tag,
+      name: message.author.globalName ?? message.author.tag,
       type: message.author.bot ? 'bot' : config.discord.admins.includes(message.author.id) ? 'sysadmin' : 'member',
       avatar: message.author.avatarURL()
         ? message.author.avatarURL().replace(/\?size=(.*)/, '?size=64')
@@ -27,7 +27,7 @@ async function Parse(message: Discord.Message) {
     },
     timestamp: message.createdTimestamp,
     content: message.content || null,
-    embeds: message.embeds.map((embed): EmbedType => new Embed(embed) as any),
+    embeds: message.embeds.map((embed): EmbedType => new Embed(embed) as any) || [],
     editedAt: message.editedTimestamp == 0 ? null : message.editedTimestamp,
     type: message.type,
     reactions: await Reactions([...message.reactions.cache.values()]),

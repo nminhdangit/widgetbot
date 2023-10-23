@@ -1,4 +1,4 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
+# This file was generated. Do not edit manually.
 
 schema {
   query: Query
@@ -74,6 +74,7 @@ type Embed {
   thumbnail: EmbedThumbnail
   timestamp: String
   title: String
+  "Left for legacy purposes, do not use!"
   type: String!
   url: String
   video: EmbedVideo

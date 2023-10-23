@@ -1,5 +1,5 @@
 import config from 'config'
-import { TextChannel } from 'discord.js'
+import { ChannelType, PermissionsBitField, TextChannel } from 'discord.js'
 import { client } from 'engine'
 import Permissions from 'engine/permissions'
 import memoize from 'memoizee'
@@ -13,7 +13,11 @@ async function Channels(server: string) {
   return await Promise.all(
     guild.channels.cache
       // Only allow text & news channels we have permission to view.
-      .filter(channel => (channel.type === 'GUILD_TEXT' || channel.type === 'GUILD_NEWS') && channel.permissionsFor(client.user).has('VIEW_CHANNEL', true))
+      .filter(
+        channel =>
+          (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildAnnouncement) &&
+          channel.permissionsFor(client.user).has(PermissionsBitField.Flags.ViewChannel, true)
+      )
 
       // Order channels by position
       .sort((a, b) => ((a as TextChannel).position > (b as TextChannel).position ? 1 : -1))

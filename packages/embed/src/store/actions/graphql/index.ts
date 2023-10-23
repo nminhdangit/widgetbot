@@ -39,7 +39,7 @@ namespace GraphQL {
   }>) {
     const loadMessages = !!state.activeChannel
 
-    // If a channel is selected, load it's messages
+    // If a channel is selected, load its messages
     // else just load the server info
     const variables = {
       server: state.server.id,
@@ -69,7 +69,7 @@ namespace GraphQL {
         response && response.errors
           ? response.errors.map(error => ({
               level: 'error',
-              title: 'An error occurred whilst loading this embed (loading messages)',
+              title: 'An error occurred while loading this embed (loading messages)',
               message: error.message,
               autoDismiss: 0
             }))

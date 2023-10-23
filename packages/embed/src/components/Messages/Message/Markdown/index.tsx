@@ -6,17 +6,7 @@ import { iterate } from 'styled-elements/Emoji/emojiMap'
 import controller from '../../../../controllers/cerebral'
 import message from '../../../../types/message'
 import Embed from '../Embed'
-import {
-  Channel,
-  Code,
-  Edited,
-  Emoji,
-  Image,
-  Link,
-  Mention,
-  Role,
-  Twemoji
-} from './elements'
+import { Channel, Code, Edited, Emoji, Image, Link, Mention, Role, Twemoji } from './elements'
 
 export function parseText(msg: message) {
   function mentions(array: [string | string[]], mentions) {
@@ -26,9 +16,7 @@ export function parseText(msg: message) {
       }
 
       mentions.members.forEach((member, i) => {
-        const roles = member.roles.sort(
-          (a, b) => (a.position < b.position ? 1 : -1)
-        )
+        const roles = member.roles.sort((a, b) => (a.position < b.position ? 1 : -1))
         let color
         for (let role of roles) {
           if (role.color !== '#000000') {
@@ -63,21 +51,13 @@ export function parseText(msg: message) {
       })
 
       mentions.roles.forEach((role, i) => {
-        e = replace(
-          e,
-          `<@&${role.id}>`,
-          <Role role={role} key={role.id} color={role.color}>{`@${
-            role.name
-          }`}</Role>
-        )
+        e = replace(e, `<@&${role.id}>`, <Role role={role} key={role.id} color={role.color}>{`@${role.name}`}</Role>)
       })
 
       let _e: string[] | string = e as string[] | string
       if (_e instanceof Array) {
         _e.map(a => {
-          return typeof a === 'string'
-            ? a.replace(/<@&[0-9]{18}>/g, '@deleted-role')
-            : a
+          return typeof a === 'string' ? a.replace(/<@&[0-9]{18}>/g, '@deleted-role') : a
         })
       } else {
         e = e.replace(/<@&[0-9]{18}>/g, '@deleted-role')
@@ -120,28 +100,16 @@ export function parseText(msg: message) {
   }
 
   function attachment(msg, setPopup?) {
-    return msg.attachment ? (
-      <Image
-        src={msg.attachment.url}
-        height={+msg.attachment.height}
-        width={+msg.attachment.width}
-      />
-    ) : null
+    return msg.attachment ? <Image src={msg.attachment.url} height={+msg.attachment.height} width={+msg.attachment.width} /> : null
   }
 
   function embed(msg: message) {
     if (msg.embeds.length === 0) return null
 
+    //TODO: Check GIFs
     return msg.embeds.map((embed, i) => {
-      if (embed.type === 'gifv') {
-        return (
-          <Image
-            src={embed.video.url.replace('.mp4', '.gif')}
-            width={+embed.video.width}
-            height={+embed.video.height}
-            key={i}
-          />
-        )
+      if (embed.image.url.endsWith('.gif')) {
+        return <Image src={embed.video.url.replace('.mp4', '.gif')} width={+embed.video.width} height={+embed.video.height} key={i} />
       }
       return <Embed key={i} {...embed} />
     })
@@ -150,14 +118,7 @@ export function parseText(msg: message) {
   function emoji(input) {
     return input.map((part, i) => {
       if (typeof part === 'string') {
-        return (
-          <Twemoji
-            resolveNames
-            onlyEmojiClassName="enlarged"
-            text={part}
-            key={i * Math.random()}
-          />
-        )
+        return <Twemoji resolveNames onlyEmojiClassName="enlarged" text={part} key={i * Math.random()} />
       }
       return part
     })
@@ -262,9 +223,7 @@ function recurse(node, recurseOutput, state) {
 
 function parserFor(rules, returnAst?) {
   const parser = SimpleMarkdown.parserFor(rules)
-  const renderer = SimpleMarkdown.reactFor(
-    SimpleMarkdown.ruleOutput(rules, 'react')
-  )
+  const renderer = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'))
   return function(input = '', inline = true, state = {}, transform = null) {
     if (!inline) {
       input += '\n\n'
@@ -297,8 +256,7 @@ function omit(object, excluded) {
 // emoji stuff
 
 const getEmoteURL = emote => `https://cdn.discordapp.com/emojis/${emote.id}.png`
-const getAnimEmoteURL = emote =>
-  `https://cdn.discordapp.com/emojis/${emote.id}.gif`
+const getAnimEmoteURL = emote => `https://cdn.discordapp.com/emojis/${emote.id}.gif`
 
 function getEmojiURL(surrogate) {
   if (['™', '©', '®'].indexOf(surrogate) > -1) {
@@ -367,9 +325,7 @@ const replacer = (function() {
 })()
 
 function translateSurrogatesToInlineEmoji(surrogates) {
-  return surrogates.replace(replacer, (_, match) =>
-    convertSurrogateToName(match)
-  )
+  return surrogates.replace(replacer, (_, match) => convertSurrogateToName(match))
 }
 
 // i am not sure why are these rules split like this.
@@ -541,30 +497,18 @@ function createRules(r) {
       match: SimpleMarkdown.inlineRegex(/^~~([\s\S]+?)~~(?!_)/),
       parse: r.u.parse,
       react(node, recurseOutput, state) {
-        return createReactElement(
-          's',
-          {},
-          state.key,
-          recurseOutput(node.content, state)
-        )
+        return createReactElement('s', {}, state.key, recurseOutput(node.content, state))
       }
     },
     paragraph: {
       ...paragraph,
       react(node, recurseOutput, state) {
-        return createReactElement(
-          'p',
-          {},
-          state.key,
-          recurseOutput(node.content, state)
-        )
+        return createReactElement('p', {}, state.key, recurseOutput(node.content, state))
       }
     },
     url: {
       ...url,
-      match: SimpleMarkdown.inlineRegex(
-        /^((https?|steam):\/\/[^\s<]+[^<.,:;"')\]\s])/
-      )
+      match: SimpleMarkdown.inlineRegex(/^((https?|steam):\/\/[^\s<]+[^<.,:;"')\]\s])/)
     },
     link: {
       ...link,
@@ -618,12 +562,7 @@ function createRules(r) {
           )
         }
 
-        return createReactElement(
-          Code,
-          {},
-          undefined,
-          recurse(node, recurseOutput, state)
-        )
+        return createReactElement(Code, {}, undefined, recurse(node, recurseOutput, state))
       }
     }
   }
@@ -652,24 +591,13 @@ const parseAllowLinks = parserFor(createRules(baseRules))
 // used in:
 //  embed title (obviously)
 //  embed field names
-const parseEmbedTitle = parserFor(
-  omit(rulesWithoutMaskedLinks, [
-    'codeBlock',
-    'br',
-    'mention',
-    'channel',
-    'roleMention'
-  ])
-)
+const parseEmbedTitle = parserFor(omit(rulesWithoutMaskedLinks, ['codeBlock', 'br', 'mention', 'channel', 'roleMention']))
 
 // used in:
 //  message content
 function jumboify(ast) {
   const nonEmojiNodes = ast.some(node => {
-    return (
-      node.type !== 'img' &&
-      (typeof node.content !== 'string' || node.content.trim() !== '')
-    )
+    return node.type !== 'img' && (typeof node.content !== 'string' || node.content.trim() !== '')
   })
 
   if (nonEmojiNodes) {

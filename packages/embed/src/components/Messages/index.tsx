@@ -74,7 +74,7 @@ export default connect()
             <Wrapper>
               {header}
               {content}
-              {channel && channel.permissions && channel.permissions.includes('SEND_MESSAGES') && <Chat />}
+              {channel && channel.permissions && channel.permissions.includes('SendMessages') && <Chat />}
             </Wrapper>
           ) : (
             <ErrorAhoy />

@@ -1,4 +1,4 @@
-import { GuildChannel, TextChannel } from 'discord.js'
+import { ChannelType, GuildChannel, PermissionsBitField, TextChannel } from 'discord.js'
 import { client } from 'engine'
 import Messages from 'engine/messages'
 import memoize from 'memoizee'
@@ -15,8 +15,10 @@ async function fetchInvite(req: { server: string; channel?: string }) {
     // If the channel doesn't exist, or we don't have
     // permission to create an invite on it,
     // fallback to a random channel with permission
-    if (!channel || !channel.permissionsFor(client.user).has('CREATE_INSTANT_INVITE')) {
-      channel = guild.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user).has('CREATE_INSTANT_INVITE'))
+    if (!channel || !channel.permissionsFor(client.user).has(PermissionsBitField.Flags.CreateInstantInvite)) {
+      channel = guild.channels.cache.find(
+        channel => channel.type === ChannelType.GuildText && channel.permissionsFor(client.user).has(PermissionsBitField.Flags.CreateInstantInvite)
+      )
     }
 
     if (channel) {

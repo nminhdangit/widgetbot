@@ -1,3 +1,4 @@
+import { PermissionsBitField } from 'discord.js'
 import * as Discord from 'discord.js'
 import { client } from 'engine'
 import Messages from 'engine/messages'
@@ -13,7 +14,13 @@ async function fetchChannel(
   perms: Discord.PermissionResolvable | Discord.PermissionResolvable[] = []
 ) {
   // Construct the permissions
-  const permissions = perms ? (['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', ...(perms instanceof Array ? perms : [perms])] as Discord.PermissionResolvable[]) : null
+  const permissions = perms
+    ? ([
+        PermissionsBitField.Flags.ViewChannel,
+        PermissionsBitField.Flags.ReadMessageHistory,
+        ...(perms instanceof Array ? perms : [perms])
+      ] as Discord.PermissionResolvable[])
+    : null
 
   // Validate input
   if (typeof channel !== 'string') throw Messages.NO_CHANNEL

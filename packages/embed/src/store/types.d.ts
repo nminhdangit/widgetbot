@@ -11,7 +11,7 @@ import * as signals from './sequences'
 export interface Channel {
   name: string
   id: string
-  type: string
+  type: number
   category: string
   permissions: string[]
   lastSeenID: string

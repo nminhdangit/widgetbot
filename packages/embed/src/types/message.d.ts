@@ -63,7 +63,6 @@ export interface Embed {
   provider: EmbedProvider
   video: EmbedVideo
   title: string
-  type: string
   description: string
   url: string
   timestamp: number

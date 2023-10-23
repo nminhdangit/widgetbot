@@ -46,7 +46,6 @@ export const messages =
       embeds {
         color
         title
-        type
         description
         url
         timestamp
