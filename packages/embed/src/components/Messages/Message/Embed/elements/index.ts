@@ -26,7 +26,7 @@ export const Content = styled.div`
   display: flex;
   overflow: hidden;
   ${({ theme }) =>
-    /^article|image$/.test(theme.embed.type)
+    /^article|image$/.test(theme.embed.url) //TODO: Fix at a later point
       ? css`
           flex-direction: column;
         `

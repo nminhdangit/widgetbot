@@ -1,4 +1,4 @@
-import { Permissions } from 'discord.js'
+import { Permissions, PermissionsBitField } from 'discord.js'
 import fetchChannel from 'engine/util/fetchChannel'
 
 interface Request {
@@ -9,10 +9,10 @@ interface Request {
 
 async function rolePerms({ snowflake, ...req }: Request) {
   const { guild, channel } = await fetchChannel(req, null)
-  const permissions = new Permissions()
+  const permissions = new PermissionsBitField()
 
   // Get permissions for us in this channel
-  const channelPermissions = guild.me.permissionsIn(channel)
+  const channelPermissions = guild.members.me.permissionsIn(channel)
   permissions.add(channelPermissions)
 
   return permissions

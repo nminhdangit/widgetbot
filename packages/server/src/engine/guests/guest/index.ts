@@ -3,7 +3,7 @@ import 'database/guest'
 import config from 'config'
 import { SetEnhancer } from 'database/guest-message'
 import * as Pending from 'database/guest-message/pending'
-import { Webhook } from 'discord.js'
+import { PermissionsBitField, Webhook } from 'discord.js'
 import * as Discord from 'discord.js'
 import Permissions from 'engine/permissions'
 import fetchChannel from 'engine/util/fetchChannel'
@@ -77,14 +77,14 @@ class Guest {
     const guestPermissions = await Permissions(req)
 
     // Disallow guests without permission from sending messages
-    if (!guestPermissions.includes('SEND_MESSAGES')) {
+    if (!guestPermissions.has(PermissionsBitField.Flags.SendMessages)) {
       throw `You don't have permission to send messages on this channel`
     }
 
     // Sanitize the message - @everyone, @here etc.
     const message = sanitize(unsanitized)
 
-    if (!permissions.has('MANAGE_WEBHOOKS')) {
+    if (!permissions.has('ManageWebhooks')) {
       logger.error(`Missing permission to manage webhooks in #${channel.name}, send message as self`)
       return await this.sendMessageAsSelf(channel, message)
     }
@@ -108,7 +108,7 @@ class Guest {
     }
 
     try {
-      const newWebhook = await channel.createWebhook(config.discord.webhook, { reason: 'Allows WidgetBot users to write messages to this channel' })
+      const newWebhook = await channel.createWebhook({ name: config.discord.webhook, reason: 'Allows WidgetBot users to write messages to this channel' })
       return await this.sendMessageAsWebhook(channel, newWebhook, message)
     } catch (error) {
       logger.log('error', error.toString())
@@ -153,7 +153,7 @@ class Guest {
 
   async startTyping(channelID: string) {
     try {
-      const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
+      const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SendMessages')
 
       channel.sendTyping()
     } catch (e) {
@@ -163,7 +163,7 @@ class Guest {
 
   async stopTyping(channelID: string) {
     try {
-      const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SEND_MESSAGES')
+      const { channel } = await fetchChannel({ server: this.server, channel: channelID }, 'SendMessages')
 
       // Clear typing timeout
       clearTimeout(this.typingTimeout)

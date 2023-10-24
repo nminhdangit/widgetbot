@@ -1,10 +1,12 @@
+import { PermissionsBitField } from 'discord.js'
+
 export interface Channel {
   name: string
   topic: string
-  type: string
+  type: number
   id: string
   category: string
-  permissions: string[]
+  permissions: PermissionsBitField
 }
 
 interface Message {
@@ -14,7 +16,7 @@ interface Message {
   content: string | null
   embeds: Embed[]
   editedAt: number
-  type: string
+  type: number
   reactions: Reaction[]
   attachment: Attachment
   mentions: {
@@ -62,7 +64,6 @@ export interface Embed {
   provider?: EmbedProvider
   video?: EmbedVideo
   title?: string
-  type: string
   description?: string
   url?: string
   timestamp?: number

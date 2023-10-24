@@ -5,7 +5,7 @@ import { Hashtag, Megaphone, Name, Pings, Root } from './elements'
 interface Props {
   name: string
   unread: boolean
-  type: string
+  type: number
   id: string
   order: number
   selected: boolean
@@ -27,8 +27,8 @@ class Channel extends React.PureComponent<Props> {
 
     return (
       <Root {...this.props} className="channel">
-        {type === 'GUILD_TEXT' && <Hashtag className="hash" />}
-        {type === 'GUILD_NEWS' && <Megaphone className="megaphone" />}
+        {type == 0 && <Hashtag className="hash" />}
+        {type == 5 && <Megaphone className="megaphone" />}
         <Name ref={ref => (this.name = ref)} className="name">
           {name}
         </Name>

@@ -13,6 +13,7 @@
   },
   "private": false,
   "dependencies": {
+    "@types/ws": "^8.5.4",
     "post-robot": "~8.0.28"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import config from 'config'
-import { ChannelLogsQueryOptions, Collection } from 'discord.js'
+import { FetchMessagesOptions, Collection } from 'discord.js'
 
 import Message, { Reaction } from '../../types/message'
 import fetchChannel from '../util/fetchChannel'
@@ -141,7 +141,7 @@ class MessageStore {
   /**
    * Caches the messages for a channel
    */
-  async cacheMessages(req: Request, options: ChannelLogsQueryOptions = {}) {
+  async cacheMessages(req: Request, options: FetchMessagesOptions = {}) {
     const { channel } = await fetchChannel(req)
 
     const messages = await channel.messages.fetch({

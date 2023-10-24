@@ -3,7 +3,6 @@ import * as Discord from 'discord.js'
 import * as Message from '../../../types/message'
 
 class Embed implements Message.Embed {
-  type
   fields
   footer
   thumbnail
@@ -14,7 +13,7 @@ class Embed implements Message.Embed {
   embed
   message
 
-  constructor(embed: Discord.MessageEmbed) {
+  constructor(embed: Discord.Embed) {
     if (!embed) return
 
     Object.assign(this, embed)

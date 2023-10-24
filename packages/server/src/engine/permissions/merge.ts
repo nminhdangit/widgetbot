@@ -1,4 +1,4 @@
-import { Permissions, PermissionString } from 'discord.js'
+import { Permissions, PermissionsBitField } from 'discord.js'
 import logger from 'logger'
 
 /**
@@ -6,14 +6,15 @@ import logger from 'logger'
  * @param bot The permissions for the bot on the channel
  * @param everyone The permissions for @everyone on the channel
  */
-function Merge(bot: Permissions, everyone: Permissions): PermissionString[] {
-  const userPermissions = []
+function Merge(bot: PermissionsBitField, everyone: PermissionsBitField): PermissionsBitField {
+  const userPermissions = new PermissionsBitField()
 
   // If the bot can't send messages, the user can't either
-  if (bot.has(Permissions.FLAGS.SEND_MESSAGES) || bot.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) userPermissions.push('SEND_MESSAGES')
+  if (bot.has(PermissionsBitField.Flags.SendMessages) || bot.has(PermissionsBitField.Flags.ManageWebhooks))
+    userPermissions.add(PermissionsBitField.Flags.SendMessages)
 
   // If the bot can / can't read messages, the user can / can't either
-  if (bot.has(Permissions.FLAGS.READ_MESSAGE_HISTORY)) userPermissions.push('READ_MESSAGE_HISTORY')
+  if (bot.has(PermissionsBitField.Flags.ReadMessageHistory)) userPermissions.add(PermissionsBitField.Flags.ReadMessageHistory)
   return userPermissions
 }
 

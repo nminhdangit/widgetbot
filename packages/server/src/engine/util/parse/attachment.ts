@@ -1,9 +1,7 @@
 import * as Discord from 'discord.js'
-import { Reaction, Attachment } from '../../../types/message'
+import { Attachment } from '../../../types/message'
 
-async function Attachment(
-  attachments: Discord.MessageAttachment[]
-): Promise<Attachment> {
+async function Attachment(attachments: Discord.Attachment[]): Promise<Attachment> {
   const [attachment] = attachments
 
   return attachment
