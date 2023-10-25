@@ -8,8 +8,6 @@
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "pull": "git stash && git pull && yarn && yarn build",
     "build": "rm -rf dist; tsc && ef-tspm",
-    "test": "jest",
-    "test:watch": "jest --watch",
     "doc": "typedoc --includeDeclarations --excludeExternals --externalPattern \"**/node_modules/!(@widgetbot)/**\" --ignoreCompilerErrors --out ./docs/ ./src",
     "precommit": "pretty-quick --staged"
   },
@@ -64,22 +62,10 @@
     "timestring": "~5.0.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "~3.8.0",
-    "typescript": "^4.7.4",
+    "typescript": "^5.2.2",
     "uuid": "~3.2.1",
     "winston": "2.4.5",
     "winston-console-formatter": "^1.0.0-beta.3"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "transform": {
-      "^.+\\.(ts)$": "<rootDir>/scripts/jest"
-    },
-    "testMatch": [
-      "**/__tests__/*.+(ts|js)"
-    ]
   },
   "devDependencies": {
     "@types/errorhandler": "~0.0.32",
