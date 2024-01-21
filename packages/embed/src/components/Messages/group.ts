@@ -5,7 +5,7 @@ import Message, { messages } from '../../types/message'
  */
 function compare(a: Message, b: Message) {
   return (
-    a.type === 'GUILD_MEMBER_JOIN' ||
+    a.type === 7 ||
     // If the ID is not equal to the previous message
     a.author.id !== b.author.id ||
     // If the name is not equal to the previous message
@@ -30,7 +30,7 @@ const Group = (messages: messages): messages[] => {
   let previous: Message
 
   messages.forEach((message, i) => {
-    if (group === null || compare(previous, message)) {
+    if (group === null || compare(previous, message) || message.reference) {
       group = result.push([]) - 1
     }
     result[group].push(message)

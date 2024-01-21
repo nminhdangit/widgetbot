@@ -6,6 +6,11 @@ export const messages =
     {
       timestamp
       id
+      reference {
+        channelId
+        guildId
+        messageId
+      }
       content
       author {
         name

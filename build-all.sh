@@ -2,6 +2,7 @@
 
 set -e
 export YARN_PRODUCTION=false
+export NODE_OPTIONS=--openssl-legacy-provider
 
 echo
 echo "↔ Installing dependencies…"

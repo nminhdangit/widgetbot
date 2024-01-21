@@ -44,7 +44,7 @@ export default connect()
 
             return grouped.length ? (
               <ScrollVisible ref={this.scroll.bind(this)} className="messages">
-                {grouped.map(group => <Message messages={group} key={group[0].id} lastSeen={channel.lastSeenID} />)}
+                {grouped.map(group => <Message messages={group} key={group[0].id} lastSeen={channel.lastSeenID} all={messages} />)}
               </ScrollVisible>
             ) : (
               <NoMessages className="no-messages" />

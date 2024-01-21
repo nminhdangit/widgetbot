@@ -9,8 +9,15 @@ export interface Channel {
   permissions: PermissionsBitField
 }
 
+export interface MessageReference {
+  channelId: string
+  guildId: string | undefined
+  messageId: string | undefined
+}
+
 interface Message {
   id: string
+  reference: MessageReference | null
   author: Author
   timestamp: number
   content: string | null
