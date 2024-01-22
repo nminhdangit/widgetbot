@@ -16,8 +16,7 @@ export const Root = styled.button`
   border-radius: 56px;
   border: none;
   padding: 0;
-  transition: box-shadow 0.2s ease, background-color 0.3s ease,
-    opacity 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease, background-color 0.3s ease, opacity 0.2s ease, transform 0.2s ease;
 
   animation: ${keyframes`
     from {
@@ -47,14 +46,13 @@ export const Root = styled.button`
           background-color: transparent;
         `
       : css`
-          box-shadow: 0px 3px 5px -1px ${color.fade(0.7).toString()},
-            0px 6px 10px 0px ${color.fade(0.86).toString()},
+          box-shadow: 0px 3px 5px -1px ${color.fade(0.7).toString()}, 0px 6px 10px 0px ${color.fade(0.86).toString()},
             0px 1px 18px 0px ${color.fade(0.88).toString()};
           background-color: ${theme.options.color};
         `
   }};
 
-  ${({ theme }) => {
+  ${(theme: any) => {
     const { x, y } = theme.coords
 
     return y.margin && x.margin
@@ -86,16 +84,13 @@ export const Indicator = styled.span<IIndicator>`
   user-select: none;
 
   font-family: Roboto, sans-serif;
-  font-size: ${({ value }) =>
-    value > 50 ? '7px' : value > 9 ? `9px` : `12px`};
+  font-size: ${({ value }) => (value > 50 ? '7px' : value > 9 ? `9px` : `12px`)};
 
   background: #ff2a2a;
   color: #fff;
-  box-shadow: 0px 3px 5px -1px rgba(255, 42, 42, 0.38),
-    0px 4px 9px 0px rgba(255, 42, 42, 0.38),
-    0px 1px 12px 0px rgba(255, 42, 42, 0.22);
+  box-shadow: 0px 3px 5px -1px rgba(255, 42, 42, 0.38), 0px 4px 9px 0px rgba(255, 42, 42, 0.38), 0px 1px 12px 0px rgba(255, 42, 42, 0.22);
 
-  ${({ theme }) => css({ [theme.coords.x.axis]: 0 })};
+  ${(theme: any) => css({ [theme.coords.x.axis]: 0 })};
 `
 
 export namespace Icons {
@@ -135,7 +130,7 @@ export namespace Icons {
       )
     }};
 
-    ${({ theme }) =>
+    ${(theme: any) =>
       theme.open &&
       css`
         opacity: 0;
@@ -152,7 +147,7 @@ export namespace Icons {
       opacity: 0.95;
     }
 
-    ${({ theme }) =>
+    ${(theme: any) =>
       !theme.open &&
       css`
         opacity: 0 !important;
