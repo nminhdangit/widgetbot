@@ -22,7 +22,7 @@ export function parseText(msg: message) {
         const roles = member.roles.sort((a, b) => (a.position < b.position ? 1 : -1))
         let color
         for (let role of roles) {
-          if (role.color !== '#000000') {
+          if (role.color !== '#000') {
             color = role.color
             break
           }
@@ -135,6 +135,7 @@ export function parseText(msg: message) {
     </React.Fragment>
   )
 }
+
 // this is mostly translated from discord's client,
 // although it's not 1:1 since the client js is minified
 // and also is transformed into some tricky code

@@ -151,6 +151,12 @@ type Mentions {
   roles: [RoleMention]
 }
 
+type MessageReference {
+  channelId: String
+  guildId: String
+  messageId: String
+}
+
 type Message {
   "Message attachments"
   attachment: Attachment
@@ -164,6 +170,7 @@ type Message {
   embeds: [Embed]
   "Message ID"
   id: String!
+  reference: MessageReference
   "Message mentions"
   mentions: Mentions
   "Message reactions"

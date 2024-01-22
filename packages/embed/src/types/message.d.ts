@@ -1,13 +1,20 @@
+import MessageType from './messagetype'
+
 export interface Attachment {
   url: string | null
   height: number | null
   width: number | null
 }
 
-export type MessageType = 'DEFAULT' | 'GUILD_MEMBER_JOIN' | 'SENDING'
+export interface MessageReference {
+  channelId: string
+  guildId: string | undefined
+  messageId: string | undefined
+}
 
 interface Message {
   id: string
+  reference: MessageReference | null
   author: Author
   timestamp: number
   content: string | null

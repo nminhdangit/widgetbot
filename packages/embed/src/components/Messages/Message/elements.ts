@@ -85,7 +85,7 @@ export const JoinMember = styled.a`
 
 export const Root = styled.div`
   color: ${({ theme }) => theme.colors._primary.fadeOut(0.3).toString()};
-  opacity: ${({ theme }) => (theme.message.type === 'SENDING' ? 0.5 : 1)};
+  opacity: 1;
 
   font-size: 0.9375rem;
   line-height: 1.1em;

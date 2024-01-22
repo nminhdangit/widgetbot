@@ -2,8 +2,6 @@
 
 set -e
 export YARN_PRODUCTION=false
-# Needed for webpack to work, even though webpack isn't even a dependency as far as I can tell.
-# https://stackoverflow.com/questions/69665222/node-js-17-0-1-gatsby-error-digital-envelope-routinesunsupported-err-os
 export NODE_OPTIONS=--openssl-legacy-provider
 
 echo

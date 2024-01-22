@@ -15,6 +15,13 @@ import Member from 'engine/util/parse/member'
 async function Parse(message: Discord.Message) {
   const parsed: Message = {
     id: message.id,
+    reference: message.reference
+      ? {
+          channelId: message.reference.channelId,
+          guildId: message.reference.guildId,
+          messageId: message.reference.messageId
+        }
+      : null,
     author: {
       name: message.author.globalName || message.author.tag,
       type: message.author.bot ? 'bot' : config.discord.admins.includes(message.author.id) ? 'sysadmin' : 'member',

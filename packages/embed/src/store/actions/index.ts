@@ -15,7 +15,7 @@ import { message } from '../../types/socket'
 import { ParsedUrl, RawUrl } from '../../types/url'
 import { User } from '../../types/user'
 import { Toggles } from '../types'
-import { State } from './../types'
+import { State } from '../types'
 import { getLast } from './util'
 
 /**
@@ -93,9 +93,7 @@ export function routed({ state, props, storage }: Context<RawUrl>) {
       state.url.lang = lang
       state.translation = translations[lang]
     } else {
-      console.error(
-        `"${props.lang}" is not a valid / translated locale! falling back to EN`
-      )
+      console.error(`"${props.lang}" is not a valid / translated locale! falling back to EN`)
     }
   }
 
@@ -132,10 +130,7 @@ export function setMessage({ state, props }: Context<message>) {
   }
 }
 
-export function deleteMessage({
-  state,
-  props
-}: Context<{ channel: string; id: string }>) {
+export function deleteMessage({ state, props }: Context<{ channel: string; id: string }>) {
   const channel = state.channels.get(props.channel)
 
   if (channel && channel.messages) {
@@ -143,10 +138,7 @@ export function deleteMessage({
   }
 }
 
-export function deleteMessageBulk({
-  state,
-  props
-}: Context<{ channel: string; ids: string[] }>) {
+export function deleteMessageBulk({ state, props }: Context<{ channel: string; ids: string[] }>) {
   const channel = state.channels.get(props.channel)
 
   if (channel && channel.messages) {
@@ -154,11 +146,7 @@ export function deleteMessageBulk({
   }
 }
 
-export function sendMessage({
-  state,
-  props,
-  path
-}: BranchContext<{ sending: message }, { channel: string; message: string }>) {
+export function sendMessage({ state, props, path }: BranchContext<{ sending: message }, { channel: string; message: string }>) {
   const payload = {
     ...props,
     message: enrich(props.message)
@@ -183,8 +171,7 @@ export function sendMessage({
         color: '#000000'
       },
       id,
-      message: payload.message,
-      type: 'SENDING'
+      message: payload.message
     })
   })
 }
@@ -228,9 +215,7 @@ export function messageReactionAdd({
     if (message) {
       if (!message.reactions) message.reactions = []
 
-      const sameReaction = message.reactions.find(
-        r => r.id === props.reaction.id && r.name === props.reaction.name
-      )
+      const sameReaction = message.reactions.find(r => r.id === props.reaction.id && r.name === props.reaction.name)
 
       if (sameReaction) {
         sameReaction.count = props.reaction.count
@@ -254,9 +239,7 @@ export function messageReactionRemove({
   if (channel && channel.messages) {
     const message = channel.messages.get(props.id)
     if (message && message.reactions) {
-      message.reactions = message.reactions.filter(
-        r => !(r.id === props.reaction.id && r.name === props.reaction.name)
-      )
+      message.reactions = message.reactions.filter(r => !(r.id === props.reaction.id && r.name === props.reaction.name))
     }
   }
 }
@@ -320,11 +303,7 @@ export async function signUp({
   }
 }
 
-export function createAccount({
-  state,
-  storage,
-  props
-}: Context<{ name: string }>) {
+export function createAccount({ state, storage, props }: Context<{ name: string }>) {
   socket.emit('signUp', props)
 }
 
@@ -349,10 +328,7 @@ export function singleSignOn({ state, props }: Context) {
 /**
  * General actions
  */
-export function notify({
-  state,
-  props
-}: Context<{ notification: Notification | Notification[] }>) {
+export function notify({ state, props }: Context<{ notification: Notification | Notification[] }>) {
   addNotification(props.notification)
 }
 
@@ -373,10 +349,7 @@ export function toggle({ state, props }: Context<{ component: Toggles }>) {
   state.visible[props.component] = !state.visible[props.component]
 }
 
-export function modal({
-  state,
-  props
-}: Context<{ open: boolean; type?: Modal['type']; data?: Modal['data'] }>) {
+export function modal({ state, props }: Context<{ open: boolean; type?: Modal['type']; data?: Modal['data'] }>) {
   state.modal = { ...state.modal, ...props }
 }
 
@@ -386,10 +359,7 @@ export function switchScreen(screen: State['screen']) {
   }
 }
 
-export function typing({
-  state,
-  props
-}: Context<{ channel: string; typing: boolean }>) {
+export function typing({ state, props }: Context<{ channel: string; typing: boolean }>) {
   socket.emit('typing', props)
 }
 

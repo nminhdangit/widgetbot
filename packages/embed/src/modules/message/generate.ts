@@ -1,4 +1,5 @@
-import Message, { Author, MessageType } from '../../types/message'
+import Message, { Author, MessageReference } from '../../types/message'
+import MessageType from '../../types/messagetype'
 
 interface Request {
   message: string
@@ -6,6 +7,7 @@ interface Request {
   id?: string
   type?: MessageType
   timestamp?: number
+  reference?: MessageReference
 }
 
 const generate = (req: Request): Message => ({
@@ -15,6 +17,7 @@ const generate = (req: Request): Message => ({
   editedAt: null,
   embeds: [],
   id: req.id || `${+new Date() * Math.random()}`,
+  reference: null,
   mentions: {
     channels: [],
     members: [],
@@ -23,7 +26,7 @@ const generate = (req: Request): Message => ({
   },
   reactions: [],
   timestamp: req.timestamp || +new Date(),
-  type: req.type || 'DEFAULT'
+  type: req.type || MessageType.Default
 })
 
 export default generate
