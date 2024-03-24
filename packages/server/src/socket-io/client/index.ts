@@ -27,7 +27,7 @@ class SocketController extends Controller {
     super()
     this.socket = socket
 
-    const ip = socket.handshake.headers['x-real-ip'] || socket.conn.remoteAddress
+    const ip = socket.handshake.headers['X-Forwarded-For'] || socket.conn.remoteAddress
     this.setState({ ip })
 
     // Flows
