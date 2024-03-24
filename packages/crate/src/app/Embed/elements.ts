@@ -5,8 +5,7 @@ import WidgetBot from '@widgetbot/react-embed'
 export const Root = styled.div`
   position: fixed;
   z-index: 2147482999;
-  transition: opacity 0.4s ease,
-    transform 0.3s cubic-bezier(0.24, 0.6, 0.35, 0.96);
+  transition: opacity 0.4s ease, transform 0.3s cubic-bezier(0.24, 0.6, 0.35, 0.96);
 
   ${({ theme }) => {
     const { x, y } = theme.coords
@@ -15,9 +14,7 @@ export const Root = styled.div`
       height: `calc(100% - ${y.offset + 20}px)`,
       [x.axis]: x.offset,
       [y.axis]: y.offset,
-      transformOrigin: `${x.axis === 'right' ? 100 : 0}% ${
-        y.axis === 'bottom' ? 100 : 0
-      }%`
+      transformOrigin: `${x.axis === 'right' ? 100 : 0}% ${y.axis === 'bottom' ? 100 : 0}%`
     })
   }};
 
@@ -39,7 +36,7 @@ export const Root = styled.div`
     }
   }
 
-  ${({ theme }) =>
+  ${(theme: any) =>
     theme.open
       ? css``
       : css`

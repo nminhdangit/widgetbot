@@ -1,12 +1,12 @@
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { TransitionGroup } from 'react-transition-group'
+import Theme from '../../types/theme'
 
 export const Root = styled.div`
   display: flex;
   pointer-events: none;
-  flex-direction: ${({ theme }) =>
-    theme.coords.y.axis === 'bottom' ? `column-reverse` : `column`};
+  flex-direction: ${(theme: any) => (theme.coords.y.axis === 'bottom' ? `column-reverse` : `column`)};
 
   position: fixed;
   z-index: 2147482999;
@@ -14,7 +14,7 @@ export const Root = styled.div`
   width: 300px;
   max-height: calc(70% - 100px);
 
-  ${({ theme }) => {
+  ${(theme: any) => {
     const { x, y } = theme.coords
 
     return css({

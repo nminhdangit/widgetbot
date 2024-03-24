@@ -1,6 +1,6 @@
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
-import { ReactMarkdownProps } from 'react-markdown'
+import Theme from '../../../types/theme'
 
 const Markdown = require('react-markdown')
 
@@ -14,23 +14,21 @@ export const Root = styled.div`
   &.entering {
     pointer-events: none;
     opacity: 0;
-    transform: translateX(
-      ${({ theme }) => (theme.coords.x.axis === 'right' ? 20 : -20)}px
-    );
+    transform: translateX(${(theme: any) => (theme.coords.x.axis === 'right' ? 20 : -20)}px);
   }
 `
 
 export const Avatar = styled.img`
   height: 35px;
   width: 35px;
-  float: ${({ theme }) => theme.coords.x.axis};
+  float: ${(theme: any) => theme.coords.x.axis};
   border-radius: 100%;
   cursor: pointer;
 `
 
-export const Content = styled(Markdown)<ReactMarkdownProps>`
+export const Content = styled(Markdown)<Theme>`
   padding: 10px 16px;
-  float: ${({ theme }) => theme.coords.x.axis};
+  float: ${theme => theme.coords.x.axis};
 
   max-width: calc(100% - 100px);
   transform: translate3d(0, 0, 0);
@@ -46,7 +44,7 @@ export const Content = styled(Markdown)<ReactMarkdownProps>`
 
   font-family: 'Roboto', sans-serif;
 
-  ${({ theme }) =>
+  ${(theme: Theme) =>
     css`
       border-top-${theme.coords.x.axis}-radius: 0;
       margin-${theme.coords.x.axis}: 13px;
@@ -61,12 +59,10 @@ export const Content = styled(Markdown)<ReactMarkdownProps>`
     display: block;
     width: 0;
 
-    ${({ theme }) =>
+    ${(theme: Theme) =>
       css`
         ${theme.coords.x.axis}: -10px;
-        border-width: ${theme.coords.x.axis === 'left'
-          ? `10px 0 0 10px`
-          : ` 10px 10px 0 0`};
+        border-width: ${theme.coords.x.axis === 'left' ? `10px 0 0 10px` : ` 10px 10px 0 0`};
       `};
   }
 
