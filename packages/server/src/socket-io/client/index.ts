@@ -27,7 +27,7 @@ class SocketController extends Controller {
     super()
     this.socket = socket
 
-    const ip = socket.handshake.headers['X-Forwarded-For'] || socket.conn.remoteAddress
+    const ip = /*socket.handshake.headers['X-Forwarded-For'] ||*/ socket.conn.remoteAddress
     this.setState({ ip })
 
     // Flows
@@ -48,6 +48,11 @@ class SocketController extends Controller {
     this.announcements()
 
     logger.verbose(`Guest connected`, { ...meta(), ip })
+    logger.verbose(
+      `Other IPs retrieved from header: ${socket.handshake.headers['HTTP_CLIENT_IP']}, ${socket.handshake.headers['HTTP_X_FORWARDED_FOR']}, ${
+        socket.handshake.headers['HTTP_X_FORWARDED']
+      }, ${socket.handshake.headers['HTTP_FORWARDED_FOR']}, ${socket.handshake.headers['HTTP_FORWARDED']}, ${socket.handshake.headers['REMOTE_ADDR']}`
+    )
   }
 
   /**
