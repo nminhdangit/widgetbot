@@ -48,11 +48,7 @@ class SocketController extends Controller {
     this.announcements()
 
     logger.verbose(`Guest connected`, { ...meta(), ip })
-    logger.verbose(
-      `Other IPs retrieved from header: ${socket.handshake.headers['HTTP_CLIENT_IP']}, ${socket.handshake.headers['HTTP_X_FORWARDED_FOR']}, ${
-        socket.handshake.headers['HTTP_X_FORWARDED']
-      }, ${socket.handshake.headers['HTTP_FORWARDED_FOR']}, ${socket.handshake.headers['HTTP_FORWARDED']}, ${socket.handshake.headers['REMOTE_ADDR']}`
-    )
+    logger.verbose(`Header contents: ${JSON.stringify(socket.handshake.headers)}`)
   }
 
   /**
