@@ -5,7 +5,7 @@ import { client } from 'engine'
 import { io } from '../../../controllers/app'
 
 const Context = {
-  shard: 'widgetbot.io',
+  shard: 'PinkTeddy WidgetBot',
 
   async accountCount() {
     return (await store.guests.find({})).length

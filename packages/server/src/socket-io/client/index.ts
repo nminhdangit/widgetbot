@@ -39,7 +39,7 @@ class SocketController extends Controller {
     socket.on('typing', this.typing.bind(this))
 
     // Interactive events
-    socket.on('invite', this.invite.bind(this))
+    // socket.on('invite', this.invite.bind(this))
 
     // Channel subscriptions
     socket.on('subscribe', this.handleSubscription('subscribe'))

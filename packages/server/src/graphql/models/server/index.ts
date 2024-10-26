@@ -2,42 +2,35 @@ import config from 'config'
 import { Fetch } from 'database/server'
 import { cache, client } from 'engine'
 import Messages from 'engine/messages'
-import fetchInvite from 'engine/util/fetchInvite'
-
-import { Icons } from '../../../modules/assets'
 import Channels from './channels'
 
-async function Server({ id: server }) {
-  const guild = client.guilds.cache.get(server)
+async function Server() {
+  const guild = client.guilds.cache.get(config.discord.server)
   if (!guild) throw Messages.BAD_SERVER
 
-  const channels = await Channels(server)
+  const channels = await Channels(config.discord.server)
 
   return {
     config: () => config.embed.config,
     async theme() {
-      const storage = await Fetch(server)
+      const storage = await Fetch(config.discord.server)
       return storage.theme
     },
-    name: guild.name,
-    async invite() {
-      try {
-        return await fetchInvite({ server })
-      } catch (e) {
-        return null
-      }
-    },
-    memberCount: guild.memberCount,
-    icon: guild.iconURL() || Icons.discord,
-    channels,
-    async channel({ id: channel }) {
-      const textChannel = channels.find(({ id }) => id === channel)
+    async channel({ name: channelName }) {
+      const textChannel = channels.find(({ name }) => name === channelName)
 
       if (!textChannel) throw Messages.BAD_CHANNEL
 
       return {
         ...textChannel,
-        messages: await cache.getMessages({ server, channel })
+        messages: await cache.getMessages({ server: config.discord.server, channel: textChannel.id }),
+        async threads() {
+          return textChannel.threads.map(async thread => ({
+            id: thread.id,
+            name: thread.name,
+            messages: await cache.getMessages({ server: config.discord.server, channel: thread.id })
+          }))
+        }
       }
     }
   }

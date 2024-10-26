@@ -52,6 +52,7 @@ export interface UserConfig {
      * Admins of the bot
      */
     admins: string[]
+    server: string
   }
 
   /**

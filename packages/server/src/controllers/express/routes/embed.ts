@@ -9,10 +9,7 @@ const index = path.join(embed, 'index.html')
 const serveStatic = fs.existsSync(index)
 
 if (!serveStatic) {
-  logger.warn(
-    `Couldn't find ${index}, proxying from WidgetBot.io`,
-    meta('embed')
-  )
+  logger.warn(`Couldn't find ${index}, proxying from WidgetBot.io`, meta('embed'))
 }
 
 app.use('/channels/', (req, res) => {
@@ -22,5 +19,5 @@ app.use('/channels/', (req, res) => {
     })
   }
 
-  request(`https://widgetbot.io/channels${req.path}`).pipe(res)
+  // request(`https://widgetbot.io/channels${req.path}`).pipe(res)
 })

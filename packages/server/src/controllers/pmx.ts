@@ -13,10 +13,10 @@ const startMetrics = () => {
     value: () => (<any>io.engine).clientsCount
   })
 
-  probe.metric({
-    name: 'Total guilds',
-    value: () => client.guilds.cache.size
-  })
+  // probe.metric({
+  //   name: 'Total guilds',
+  //   value: () => client.guilds.cache.size
+  // })
 
   probe.metric({
     name: 'Total messages',

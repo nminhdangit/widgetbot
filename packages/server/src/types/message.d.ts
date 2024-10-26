@@ -2,11 +2,13 @@ import { PermissionsBitField } from 'discord.js'
 
 export interface Channel {
   name: string
-  topic: string
-  type: number
   id: string
-  category: string
-  permissions: PermissionsBitField
+  threads: Thread[]
+}
+
+export interface Thread {
+  id: string
+  name: string
 }
 
 export interface MessageReference {

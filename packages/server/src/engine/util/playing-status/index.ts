@@ -4,7 +4,7 @@ import template from 'engine/util/playing-status/template'
 
 import getContext from './context'
 
-const interval = 60 * 1000
+const interval = 30000
 
 /**
  * Status controller

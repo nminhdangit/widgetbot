@@ -10,8 +10,11 @@ function Merge(bot: PermissionsBitField, everyone: PermissionsBitField): Permiss
   const userPermissions = new PermissionsBitField()
 
   // If the bot can't send messages, the user can't either
-  if (bot.has(PermissionsBitField.Flags.SendMessages) || bot.has(PermissionsBitField.Flags.ManageWebhooks))
+  if (bot.has(PermissionsBitField.Flags.SendMessages) || bot.has(PermissionsBitField.Flags.ManageWebhooks)) {
     userPermissions.add(PermissionsBitField.Flags.SendMessages)
+    userPermissions.add(PermissionsBitField.Flags.SendMessagesInThreads)
+    userPermissions.add(PermissionsBitField.Flags.AttachFiles)
+  }
 
   // If the bot can / can't read messages, the user can / can't either
   if (bot.has(PermissionsBitField.Flags.ReadMessageHistory)) userPermissions.add(PermissionsBitField.Flags.ReadMessageHistory)

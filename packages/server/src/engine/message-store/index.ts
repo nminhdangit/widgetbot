@@ -47,73 +47,73 @@ class MessageStore {
   /**
    * Edits a message in the store
    */
-  async editMessage(req: Request, message: Message) {
-    try {
-      const messageStore = await this.fetchChannel(req)
-      messageStore.set(message.id, message)
-    } catch (e) {
-      // Ok. Channel is not in cache
-    }
-  }
+  // async editMessage(req: Request, message: Message) {
+  //   try {
+  //     const messageStore = await this.fetchChannel(req)
+  //     messageStore.set(message.id, message)
+  //   } catch (e) {
+  //     // Ok. Channel is not in cache
+  //   }
+  // }
 
-  async addReaction(req: Request, id: string, reaction: Reaction) {
-    try {
-      const messageStore = await this.fetchChannel(req)
-      const message = messageStore.get(id)
-      if (message) {
-        if (!message.reactions) message.reactions = []
+  // async addReaction(req: Request, id: string, reaction: Reaction) {
+  //   try {
+  //     const messageStore = await this.fetchChannel(req)
+  //     const message = messageStore.get(id)
+  //     if (message) {
+  //       if (!message.reactions) message.reactions = []
 
-        const sameReaction = message.reactions.find(r => r.id === reaction.id && r.name === reaction.name)
+  //       const sameReaction = message.reactions.find(r => r.id === reaction.id && r.name === reaction.name)
 
-        if (sameReaction) {
-          sameReaction.count = reaction.count
-        } else {
-          message.reactions.push(reaction)
-        }
-      }
-    } catch (e) {
-      // Ok. Channel is not in cache
-    }
-  }
+  //       if (sameReaction) {
+  //         sameReaction.count = reaction.count
+  //       } else {
+  //         message.reactions.push(reaction)
+  //       }
+  //     }
+  //   } catch (e) {
+  //     // Ok. Channel is not in cache
+  //   }
+  // }
 
-  async removeReaction(req: Request, id: string, reactions: Reaction | Reaction[]) {
-    try {
-      if (!(reactions instanceof Array)) reactions = [reactions]
+  // async removeReaction(req: Request, id: string, reactions: Reaction | Reaction[]) {
+  //   try {
+  //     if (!(reactions instanceof Array)) reactions = [reactions]
 
-      const messageStore = await this.fetchChannel(req)
-      const message = messageStore.get(id)
+  //     const messageStore = await this.fetchChannel(req)
+  //     const message = messageStore.get(id)
 
-      if (message && message.reactions) {
-        for (let reaction of reactions) {
-          message.reactions = message.reactions.filter(r => !(r.id === reaction.id && r.name === reaction.name))
-        }
-      }
-    } catch (e) {
-      // Ok. Channel is not in cache
-    }
-  }
+  //     if (message && message.reactions) {
+  //       for (let reaction of reactions) {
+  //         message.reactions = message.reactions.filter(r => !(r.id === reaction.id && r.name === reaction.name))
+  //       }
+  //     }
+  //   } catch (e) {
+  //     // Ok. Channel is not in cache
+  //   }
+  // }
 
   /**
    * Deletes a message from the store
    */
-  async deleteMessage(req: Request, ids: string | string[]) {
-    if (!(ids instanceof Array)) ids = [ids]
+  // async deleteMessage(req: Request, ids: string | string[]) {
+  //   if (!(ids instanceof Array)) ids = [ids]
 
-    try {
-      const messageStore = await this.fetchChannel(req)
-      for (let id of ids) {
-        messageStore.delete(id)
-        this.cacheMessages(req, { limit: 1, before: messageStore.last().id })
-      }
+  //   try {
+  //     const messageStore = await this.fetchChannel(req)
+  //     for (let id of ids) {
+  //       messageStore.delete(id)
+  //       this.cacheMessages(req, { limit: 1, before: messageStore.last().id })
+  //     }
 
-      // Re-inflate cache
-      // TODO: This is broken for some reason
-      // maybe it happens too fast?
-      await this.cacheMessages(req)
-    } catch (e) {
-      // Ok. Channel is not in cache
-    }
-  }
+  //     // Re-inflate cache
+  //     // TODO: This is broken for some reason
+  //     // maybe it happens too fast?
+  //     await this.cacheMessages(req)
+  //   } catch (e) {
+  //     // Ok. Channel is not in cache
+  //   }
+  // }
 
   /**
    * Fetches the messages for a channel

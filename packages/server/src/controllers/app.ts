@@ -42,10 +42,10 @@ app.use(intercept(interceptor))
 app.use('/api/graphql', limiter, graphql)
 
 // Routes
-import('app/routes/api/invite')
-import('app/routes/api/authorize')
+// import('app/routes/api/invite')
+// import('app/routes/api/authorize')
 
-import('app/routes/api/server')
+// import('app/routes/api/server')
 
 import('app/routes/embed')
 import('app/routes/configurator')

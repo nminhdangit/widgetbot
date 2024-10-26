@@ -29,14 +29,21 @@ type Cache {
 }
 
 type Channel {
+  "The channel ID"
+  id: String!
   "Fetches messages from the channel"
   messages: [Message]
-  "The channel name"
+  "Threads within the channel"
+  threads: [Thread]
+}
+
+type Thread {
+  "The thread ID"
+  id: String!
+  "The name of the thread"
   name: String!
-  "The permissions the guest has on the channel"
-  permissions: [String]
-  "The channel topic"
-  topic: String
+  "Messages in the thread"
+  messages: [Message]
 }
 
 type ChannelMention {
@@ -182,10 +189,8 @@ type Message {
 }
 
 type Query {
-  "Bot invite URL"
-  invite: String!
   "The discord server to query"
-  server(id: String): Server
+  server: Server
   "Bot statistics"
   stats: Stats
 }
@@ -210,17 +215,7 @@ type RoleMention {
 
 type Server {
   "Query a channel"
-  channel(id: String): Channel
-  "Fetches all the channels on the server"
-  channels: [Channels]
-  "The servers icon"
-  icon: String!
-  "Discord invite for the server"
-  invite: String
-  "Amount of members in the server"
-  memberCount: Int!
-  "The name of the server"
-  name: String!
+  channel(name: String): Channel
   "Theme for the server"
   theme: Theme
 }

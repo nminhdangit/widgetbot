@@ -6,6 +6,7 @@ import memoize from 'memoizee'
 import timestring from 'timestring'
 
 import { Channel } from '../../../types/message'
+import Threads from './threads'
 
 async function Channels(server: string) {
   const guild = client.guilds.cache.get(server)
@@ -13,11 +14,7 @@ async function Channels(server: string) {
   return await Promise.all(
     guild.channels.cache
       // Only allow text & news channels we have permission to view.
-      .filter(
-        channel =>
-          (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildAnnouncement) &&
-          channel.permissionsFor(client.user).has(PermissionsBitField.Flags.ViewChannel, true)
-      )
+      .filter(channel => channel.type === ChannelType.GuildText && channel.permissionsFor(client.user).has(PermissionsBitField.Flags.ViewChannel, true))
 
       // Order channels by position
       .sort((a, b) => ((a as TextChannel).position > (b as TextChannel).position ? 1 : -1))
@@ -25,12 +22,12 @@ async function Channels(server: string) {
       // Inject extra details into the channels
       .map(
         async (channel: TextChannel): Promise<Channel> => {
-          const { parent, name, topic, type, id } = channel
+          const { name, id } = channel
 
-          const permissions = await Permissions({ server, channel: id })
-          const category = parent ? parent.name : null
+          const threadList = channel.threads.cache.map(thread => thread)
+          const threads = await Threads(threadList)
 
-          return { name, topic, type, id, category, permissions }
+          return { name, id, threads }
         }
       )
   )

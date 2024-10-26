@@ -7,7 +7,7 @@ import logger from 'logger'
 import raven from 'raven'
 import events from 'server-api'
 
-import startMetrics from './controllers/pmx'
+// import startMetrics from './controllers/pmx'
 
 export async function main() {
   /// #if DEBUG
@@ -42,7 +42,7 @@ export async function main() {
     })
   }
 
-  startMetrics()
+  // startMetrics()
 
   /**
    * Express

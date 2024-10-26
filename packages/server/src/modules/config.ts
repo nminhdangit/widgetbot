@@ -6,12 +6,7 @@ import * as paths from 'paths'
 
 import Config from '../types/Config'
 
-const config = extend(
-  true,
-  readConfigurationFile('config.base.yml'),
-  readConfigurationFile('config.yml'),
-  readConfigurationEnvironment()
-) as Config
+const config = extend(true, readConfigurationFile('config.base.yml'), readConfigurationFile('config.yml'), readConfigurationEnvironment()) as Config
 
 export default config
 
@@ -28,10 +23,9 @@ function readConfigurationEnvironment(): object {
         logs: [env.LOG_SERVER_ID, env.LOG_CHANNEL_ID],
         status: [env.LOG_SERVER_ID, env.LOG_CHANNEL_ID]
       },
-      admins:
-        (env.ADMIN_ID && [env.ADMIN_ID]) ||
-        (env.ADMIN_IDS && env.ADMIN_IDS.split(',')),
-      token: env.DISCORD_TOKEN
+      admins: (env.ADMIN_ID && [env.ADMIN_ID]) || (env.ADMIN_IDS && env.ADMIN_IDS.split(',')),
+      token: env.DISCORD_TOKEN,
+      server: env.DISCORD_SERVER
     },
     express: {
       port: env.PORT
